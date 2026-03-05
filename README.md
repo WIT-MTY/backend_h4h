@@ -13,14 +13,14 @@ This API serves as the backbone of the Hack4Her platform, supporting organizers 
 1️⃣ **Clone the repository**
 
 ```
-    git clone https://github.com/WIT-MTY/backend_h4h.git
-    cd backend_h4h
+git clone https://github.com/WIT-MTY/backend_h4h.git
+cd backend_h4h
 ```
 
 2️⃣ **Install dependencies**
 
 ```
-    npm install
+npm install
 ```
 
 3️⃣ **Setup environment variables** \
@@ -29,24 +29,24 @@ This API serves as the backbone of the Hack4Her platform, supporting organizers 
 4️⃣ **Run the development server**
 
 ```
-    npm run dev
+npm run dev
 ```
 
 ## 📂 Project Structure
 
 ```
-    backend_h4h/
-    │
-    ├── src/
-    │   ├── controllers/
-    │   ├── routes/
-    │   ├── models/
-    │   ├── middleware/
-    │   └── config/
-    │
-    ├── .env
-    ├── package.json
-    └── README.md
+backend_h4h/
+│
+├── src/
+│   ├── controllers/
+│   ├── routes/
+│   ├── models/
+│   ├── middleware/
+│   └── config/
+│
+├── .env
+├── package.json
+└── README.md
 ```
 
 ## 👩‍💻👩🏼‍💻👩🏿‍💻 Contributors
