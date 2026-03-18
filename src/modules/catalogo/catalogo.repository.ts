@@ -3,7 +3,7 @@ import { db } from "../../config/db.js";
 export const getSemestres = async () => {
   const query = `
     SELECT id, descripcion
-    FROM semestre
+    FROM dev.semestre
     ORDER BY id
   `;
 
