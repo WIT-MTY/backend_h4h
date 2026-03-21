@@ -10,11 +10,11 @@ export const getSemestres = async (req: Request, res: Response) => {
       data: semestres,
     });
   } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return res.status(500).json({
       success: false,
-      message: "Error retrieving semestre catalog",
+      message: errorMessage,
+      details: error,
     });
   }
 };
