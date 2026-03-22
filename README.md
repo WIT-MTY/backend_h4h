@@ -37,6 +37,8 @@ npm run dev
 ```
 backend_h4h/
 │
+├── Database/
+│
 ├── src/
 │   ├── config/  # Configuración global (Supabase client, env vars)
 │   ├── controllers/  # Manejo de peticiones HTTP (req, res)
