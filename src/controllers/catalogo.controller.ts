@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import * as catalogoService from "./catalogo.service.js";
+import * as catalogoService from "../services/catalogo.service.js";
 
 export const getSemestres = async (req: Request, res: Response) => {
   try {

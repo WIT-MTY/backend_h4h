@@ -38,15 +38,21 @@ npm run dev
 backend_h4h/
 │
 ├── src/
-│   ├── controllers/
-│   ├── routes/
-│   ├── models/
-│   ├── middleware/
-│   └── config/
+│   ├── config/  # Configuración global (Supabase client, env vars)
+│   ├── controllers/  # Manejo de peticiones HTTP (req, res)
+│   ├── dtos/  # Data Transfer Objects (validación de entrada)
+│   ├── middleware/  # Guardianes de rutas (auth, validación de JWT)
+│   ├── routes/  # Definición de end-points
+│   ├── services/ # Lógica
+│   ├── types/ # Definiciones de TypeScript e interfaces
+│   └── server.ts  # Punto de entrada de la aplicación
 │
 ├── .env
+├── .gitignore
+├── package-lock.json
 ├── package.json
-└── README.md
+├── README.md
+└── tsconfig.json
 ```
 
 ## 👩‍💻👩🏼‍💻👩🏿‍💻 Contributors
