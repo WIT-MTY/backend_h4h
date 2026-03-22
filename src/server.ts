@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import catalogoRoutes from "./routes/catalogo.routes.js";
+import catalogoRoutes from "./routes/catalogo";
 
 dotenv.config();
 

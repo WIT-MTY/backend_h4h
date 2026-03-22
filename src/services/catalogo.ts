@@ -1,4 +1,5 @@
-import { db } from "../../config/db.js";
+import { db } from "../config/db.js";
+import type Catalogo from "@/types/Catalogo.js";
 
 export const getSemestres = async () => {
   const query = `
@@ -8,5 +9,5 @@ export const getSemestres = async () => {
   `;
 
   const { rows } = await db.query(query);
-  return rows;
+  return rows as Catalogo[];
 };

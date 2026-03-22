@@ -9,9 +9,10 @@
     },
 
     // Environment Settings
-    "module": "nodenext",
-    "moduleResolution": "NodeNext",
-    "target": "esnext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ESNext",
+    "allowImportingTsExtensions": false,
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
