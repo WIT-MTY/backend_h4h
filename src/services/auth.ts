@@ -1,17 +1,20 @@
-// import { supabase } from "../config/supabase";
-// import { UserCredentials } from "../types/auth.types";
+import { supabase } from "@/config/supabase";
+import type UserCredentials from "@/types/UserCredentials";
 
-// export const signUp = async ({ email, password }: UserCredentials) => {
-//   const { data, error } = await supabase.auth.signUp({ email, password });
-//   if (error) throw new Error(error.message);
-//   return data;
-// };
+export const signUp = async (credentials: UserCredentials) => {
+  const { data, error } = await supabase.auth.signUp({
+    email: credentials.email,
+    password: credentials.password,
+  });
+  if (error) throw new Error(error.message);
+  return data;
+};
 
-// export const signIn = async ({ email, password }: UserCredentials) => {
-//   const { data, error } = await supabase.auth.signInWithPassword({
-//     email,
-//     password,
-//   });
-//   if (error) throw new Error(error.message);
-//   return data.session;
-// };
+export const logIn = async (credentials: UserCredentials) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: credentials.email,
+    password: credentials.password,
+  });
+  if (error) throw new Error(error.message);
+  return data.session;
+};
