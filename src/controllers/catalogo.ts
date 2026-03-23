@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import * as CatalogoService from "@/services/catalogo";
+import * as CatalogoService from "@/services/catalogo.js";
 
 export const listSemestres = async (_req: Request, res: Response) => {
   try {
