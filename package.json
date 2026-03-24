@@ -1,11 +1,11 @@
 {
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --watch src --exec node --loader ts-node/esm src/index.ts",
+    "dev": "nodemon --watch src --exec tsx src/server.ts",
     "build": "tsc",
-    "start": "node dist/index.ts"
+    "start": "node dist/server.js"
   },
-  "main": "index.ts",
+  "main": "dist/server.js",
   "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^2.99.2",
@@ -20,6 +20,9 @@
     "@types/pg": "^8.18.0",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }
