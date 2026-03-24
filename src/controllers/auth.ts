@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import * as AuthService from "@/services/auth.js";
+import * as AuthService from "../services/auth";
 
 export const signUp = async (req: Request, res: Response) => {
   try {

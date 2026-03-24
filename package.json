@@ -2,10 +2,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch src --exec tsx src/server.ts",
-    "build": "tsup src/server.ts --format esm --clean --minify --no-splitting",
+    "build": "tsup src/server.ts --format esm --clean --minify --no-splitting --treeshake",
     "start": "node dist/server.js"
   },
-  "main": "server.ts",
+  "main": "dist/server.js",
   "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^2.99.2",
