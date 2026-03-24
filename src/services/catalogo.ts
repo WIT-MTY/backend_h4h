@@ -1,5 +1,5 @@
-import { db } from "../config/db";
-import type Catalog from "../types/Catalog";
+import { db } from "../config/db.js";
+import type Catalog from "../types/Catalog.js";
 
 export const getSemestres = async () => {
   const query = `
