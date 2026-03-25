@@ -1,4 +1,4 @@
-export default interface Catalog {
+export interface Catalog {
   id: number;
   descripcion: string;
 }
