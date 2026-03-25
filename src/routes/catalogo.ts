@@ -14,4 +14,5 @@ router.get("/catalogo/talla", catalogoController.listTallas);
 router.get("/catalogo/carrera", catalogoController.listCarreras);
 router.get("/catalogo/semestre", catalogoController.listSemestres);
 
+
 export default router;
