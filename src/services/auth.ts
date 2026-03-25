@@ -1,5 +1,5 @@
 import { supabase } from "../config/supabase.js";
-import type UserCredentials from "../types/UserCredentials.js";
+import type { UserCredentials } from "../types/UserCredentials.js";
 import type { ParticipantRegisterData } from "../types/ParticipantData.js";
 import { uploadAndGetURL } from "./storage.js";
 
@@ -64,53 +64,94 @@ export const signUp = async (
         "Se requiere permiso de menor para participantes menores de edad",
       );
     }
-    const { data: permisoURLData, error: permisoError } =
-      await uploadAndGetURL(permisoFile);
+    const { data: permisoURLData, error: permisoError } = await uploadAndGetURL(
+      permisoFile,
+      "permisos_menores",
+    );
     if (permisoError) {
       throw new Error("Error al subir el permiso de menor.");
     }
     permisoURL = permisoURLData;
   }
 
-  const { data: cvURLData, error: cvError } = await uploadAndGetURL(cvFile);
+  const { data: cvURLData, error: cvError } = await uploadAndGetURL(
+    cvFile,
+    "cvs",
+  );
+  console.log("CVURLData:", cvURLData, "CVError:", cvError);
   if (cvError) {
     throw new Error("Error al subir el currículum.");
   }
-  const cvURL = cvURLData;
 
   //* 3. Llamar al SP en Postgres vía RPC
-  // Nota: Asegúrarse de que las llaves coincidan exactamente con los nombres de los parámetros del SP
+  // IMPORTANTE que las llaves coincidan exactamente con los nombres de los parámetros del FN, el orden no importa pero los nombres sí.
   const { data: rpcData, error: rpcError } = await supabase.rpc(
     "fn_registro_participantes",
     {
+      // Datos base
       p_usuario_base_id: authData.user.id,
       p_nombre: registerData.nombre,
       p_apellido: registerData.apellido,
       p_fecha_nacimiento: registerData.fecha_nacimiento,
-      p_permisos_menores_url: permisoURL,
       p_telefono: registerData.telefono,
-      p_pais_id: registerData.pais_id,
-      p_universidad_mexico_id: registerData.universidad_mexico_id,
-      p_universidad_extranjera: registerData.universidad_extranjera,
-      p_estado_id: registerData.estado_id,
-      p_semestre_id: registerData.semestre_id,
-      p_carrera_id: registerData.carrera_id,
-      p_linkedin_url: registerData.linkedin_url,
-      p_github_url: registerData.github_url,
-      p_cv_url: cvURL,
-      p_genero_id: registerData.genero_id,
-      p_vegana: registerData.vegana,
+      p_genero_id: registerData.genero_id || null,
+
+      // Ubicación y Universidad
+      p_pais_id: registerData.pais_id || null,
+      p_estado_id: registerData.estado_id || null,
+      p_universidad_mexico_id: registerData.universidad_mexico_id || null,
+      p_universidad_extranjera: registerData.universidad_extranjera || null, // <--- Faltaba en el intento fallido
+
+      // Académico
+      p_carrera_id: registerData.carrera_id || null,
+      p_semestre_id: registerData.semestre_id || null,
+
+      // Social / Archivos
+      p_linkedin_url: registerData.linkedin_url || null, // <--- Faltaba en el intento fallido
+      p_github_url: registerData.github_url || null, // <--- Faltaba en el intento fallido
+      p_cv_url: cvURLData,
+      p_permisos_menores_url: permisoURL || null,
+
+      // Alimentación y Talla
+      p_talla_id: registerData.talla_playera_id || null,
+      p_vegana: registerData.vegana ?? false, // <--- Faltaba en el intento fallido
       p_tiene_restriccion_alimentaria:
-        registerData.tiene_restriccion_alimentaria,
+        registerData.tiene_restriccion_alimentaria ?? false, // <--- Faltaba en el intento fallido
       p_desc_restricciones_alimenticias:
-        registerData.detalle_restriccion_alimentaria,
-      p_talla_id: registerData.talla_playera_id,
+        registerData.detalle_restriccion_alimentaria || null,
     },
   );
 
+  console.log("******RPC Data:", rpcData);
+  console.log("------RPC Error:", rpcError);
+
   if (rpcError) {
-    await supabase.auth.admin.deleteUser(authData.user.id); // rollback del usuario creado en Supabase Auth
-    await supabase.storage.from("docs").remove([cvFile.name]); // eliminar CV subido
+    //* rollback del usuario creado en Supabase Auth
+    await supabase.auth.admin.deleteUser(authData.user.id);
+    console.log(`Usuario ${authData.user.id} eliminado por error en RPC.`);
+
+    //* eliminar CV subido si hay error en RPC para evitar archivos huérfanos
+    if (cvURLData) {
+      const cvFileToDelete = cvURLData.split("/").pop();
+      if (cvFileToDelete) {
+        await supabase.storage.from("docs").remove([`cvs/${cvFileToDelete}`]);
+        console.log(`Archivo CV ${cvFileToDelete} eliminado por error en RPC.`);
+      }
+    }
+
+    //* eliminar permiso menor de edad subido si hay error en RPC para evitar archivos huérfanos
+    if (permisoURL) {
+      const permisoFileToDelete = permisoURL.split("/").pop();
+      if (permisoFileToDelete) {
+        await supabase.storage
+          .from("docs")
+          .remove([`permisos_menores/${permisoFileToDelete}`]);
+        console.log(
+          `Archivo de permiso ${permisoFileToDelete} eliminado por error en RPC.`,
+        );
+      }
+    }
+
     throw new Error(rpcError.message);
   }
 
@@ -124,4 +165,22 @@ export const logIn = async (credentials: UserCredentials) => {
   });
   if (error) throw new Error(error.message);
   return data.session;
+};
+
+export const logOut = async () => {
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw new Error(error.message);
+  } catch (error: any) {
+    throw new Error("Error al cerrar sesión: " + error.message);
+  }
+};
+
+export const deleteUser = async (userId: string) => {
+  try {
+    const { error } = await supabase.auth.admin.deleteUser(userId);
+    if (error) throw new Error(error.message);
+  } catch (error: any) {
+    throw new Error("Error al eliminar usuario: " + error.message);
+  }
 };
