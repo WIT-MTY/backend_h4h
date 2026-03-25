@@ -6,7 +6,7 @@ export const updateEstatus = async (
 ) => {
   const query = `
     UPDATE dev.participante
-    SET estatus_participante_id = $1
+    SET estatus_participante_id = ( SELECT id FROM dev.estatus_participante WHERE descripcion = $1)
     WHERE id = $2
     RETURNING id, estatus_participante_id;
   `;

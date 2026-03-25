@@ -4,27 +4,27 @@ import * as participanteService from "../services/participante.js";
 export const updateEstatus = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { estatus_id } = req.body;
+    const { estatus } = req.body;
 
     // Validación básica
-    if (!estatus_id) {
+    if (!estatus) {
       return res.status(400).json({
-        error: "El estatus_id es requerido",
+        error: "El estatus es requerido",
       });
     }
 
     // Validación de valores permitidos (ajústalos si cambian en tu DB)
-    const validEstatusIds = [1, 2, 3];
+    const validEstatusIds = ["Pendiente", "Aceptado", "Rechazado"];
 
-    if (!validEstatusIds.includes(Number(estatus_id))) {
+    if (!validEstatusIds.includes(estatus)) {
       return res.status(400).json({
-        error: "estatus_id inválido",
+        error: "estatus inválido",
       });
     }
 
     const result = await participanteService.updateEstatus(
       Number(id),
-      Number(estatus_id)
+      estatus
     );
 
     if (!result) {
