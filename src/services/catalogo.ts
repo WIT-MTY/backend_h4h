@@ -29,10 +29,9 @@ export const getEstados = async () => {
 //
 export const getUniversidades = async () => {
   const query = `
-    SELECT u.id AS value, u.universidad_nombre AS label, e.nom_estado AS estado
-    FROM dev.universidad u
-    JOIN dev.estado e ON u.estado_id = e.id
-    ORDER BY u.universidad_nombre;
+    SELECT u.id AS value, u.universidad_nombre AS label, u.estado_id AS estado
+FROM dev.universidad u
+ORDER BY u.universidad_nombre;
   `;
 
   const { rows } = await db.query(query);
