@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", catalogoRoutes);
 app.use("/", authRoutes);
+// app.use("/", teamRoutes);
 app.get("/", (req, res) => res.send("API Running"));
 
 if (process.env.NODE_ENV !== "production") {
