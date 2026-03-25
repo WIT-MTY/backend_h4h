@@ -99,6 +99,7 @@ export const logOut = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
+  // TODO: Borrar todas las apariciones del usuario en otras tablas (participante, equipo, etc.) CREAR UN SERVICIO PARA ESTO
   try {
     await AuthService.deleteUser(req.body.userId);
     res.status(200).json({ message: "Usuario eliminado correctamente" });

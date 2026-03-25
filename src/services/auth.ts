@@ -177,6 +177,7 @@ export const logOut = async () => {
 };
 
 export const deleteUser = async (userId: string) => {
+  // TODO: Borrar todas las apariciones del usuario en otras tablas (participante, equipo, etc.) CREAR UN SERVICIO PARA ESTO
   try {
     const { error } = await supabase.auth.admin.deleteUser(userId);
     if (error) throw new Error(error.message);
