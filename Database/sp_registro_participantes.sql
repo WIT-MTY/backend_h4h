@@ -1,5 +1,5 @@
 -- Compatible con .rpc("fn_registro_participantes", {});
-CREATE OR REPLACE FUNCTION fn_registro_participantes(
+CREATE OR REPLACE FUNCTION public.fn_registro_participantes(
     p_usuario_base_id UUID,
     p_nombre VARCHAR(100),
     p_apellido VARCHAR(100),
@@ -114,6 +114,25 @@ BEGIN
 
 END;
 $$;
+
+--* REVISAR SI ESTO CONLLEVA RIESGOS DE SEGURIDAD, SI ES ASÍ, CONSIDERAR CREAR UNA FUNCIÓN INTERMEDIA QUE VERIFIQUE LOS PERMISOS Y LUEGO LLAME A ESTA FUNCIÓN DE INSERCIÓN
+-- PARTE A: Abrir el esquema 'dev' para el administrador
+GRANT USAGE ON SCHEMA dev TO service_role;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA dev TO service_role;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA dev TO service_role;
+
+-- PARTE B: Blindar la función (SECURITY DEFINER)
+-- Esto hace que la función use los permisos del creador (postgres), saltándose RLS
+ALTER FUNCTION public.fn_registro_participantes(uuid, varchar, varchar, date, varchar, varchar, int, int, varchar, int, int, int, varchar, varchar, varchar, int, boolean, boolean, varchar, int) 
+SECURITY DEFINER;
+
+-- PARTE C: Restringir quién puede llamar a la función
+REVOKE EXECUTE ON FUNCTION public.fn_registro_participantes(uuid, varchar, varchar, date, varchar, varchar, int, int, varchar, int, int, int, varchar, varchar, varchar, int, boolean, boolean, varchar, int) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.fn_registro_participantes(uuid, varchar, varchar, date, varchar, varchar, int, int, varchar, int, int, int, varchar, varchar, varchar, int, boolean, boolean, varchar, int) TO service_role;
+--*
+
+
+
 
 -- Compatible con .query(`CALL sp_registro_participantes(...)`);
 CREATE OR REPLACE PROCEDURE sp_registro_participantes(
