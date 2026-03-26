@@ -58,8 +58,6 @@ backend_h4h/
 ```
 
 ## 👩‍💻👩🏼‍💻👩🏿‍💻 Contributors
-
-Thanks to all the amazing people who have contributed to this project: \
 <a href="https://github.com/WIT-MTY/backend_h4h/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=WIT-MTY/backend_h4h" />
 </a>
