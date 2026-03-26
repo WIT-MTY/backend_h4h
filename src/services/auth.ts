@@ -2,6 +2,7 @@ import { supabase } from "../config/supabase.js";
 import type { UserCredentials } from "../types/UserCredentials.js";
 import type { ParticipantRegisterData } from "../types/ParticipantData.js";
 import { uploadAndGetURL } from "./storage.js";
+import { db } from "../config/db.js";
 
 export const signUp = async (
   credentials: UserCredentials,
@@ -159,12 +160,30 @@ export const signUp = async (
 };
 
 export const logIn = async (credentials: UserCredentials) => {
+  await supabase.auth.signOut();
+
   const { data, error } = await supabase.auth.signInWithPassword({
     email: credentials.email,
     password: credentials.password,
   });
+  
   if (error) throw new Error(error.message);
-  return data.session;
+
+  const { rows: adminRows } = await db.query(
+    `SELECT id FROM dev.administrador WHERE usuario_base_id = $1`,
+    [data.session?.user.id]
+  );
+
+  const { rows: participanteRows } = await db.query(
+    `SELECT id FROM dev.participante WHERE usuario_base_id = $1`,
+    [data.session?.user.id]
+  );
+
+  return {
+    access_token: data.session?.access_token,
+    is_admin: adminRows.length > 0,
+    is_user: participanteRows.length > 0,
+  };
 };
 
 export const logOut = async () => {
