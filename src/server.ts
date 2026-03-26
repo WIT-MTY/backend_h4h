@@ -1,10 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
-import cors from "cors";  
-import catalogoRoutes from "@/routes/catalogo";
-import authRoutes from "@/routes/auth";
-import participanteRoutes from "@/routes/participante";
-import perfilParticipanteRoutes from "@/routes/perfilParticipante";
+import cors from "cors";
+import catalogoRoutes from "./routes/catalogo.js";
+import authRoutes from "./routes/auth.js";
+import participanteRoutes from "./routes/participante.js";
+import perfilParticipanteRoutes from "./routes/perfilParticipante.js";
 
 dotenv.config();
 
@@ -21,22 +21,19 @@ app.use(
   }),
 );
 
-app.use(cors({
-    origin: [
-        'http://localhost:3000',
-        'http://192.168.1.14:3000',
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://192.168.1.14:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-app.use("/api", authRoutes);     
-app.use("/api", catalogoRoutes);  
+app.use("/api", authRoutes);
+app.use("/api", catalogoRoutes);
 app.use("/api/participantes", participanteRoutes);
 app.use("/api/participantes", perfilParticipanteRoutes);
 
