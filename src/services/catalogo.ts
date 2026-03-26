@@ -30,8 +30,8 @@ export const getEstados = async () => {
 export const getUniversidades = async () => {
   const query = `
     SELECT u.id AS value, u.universidad_nombre AS label, u.estado_id AS estado
-FROM dev.universidad u
-ORDER BY u.universidad_nombre;
+    FROM dev.universidad u
+    ORDER BY u.universidad_nombre;
   `;
 
   const { rows } = await db.query(query);
