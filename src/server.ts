@@ -9,6 +9,7 @@ import perfilParticipanteRoutes from "@/routes/perfilParticipante";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000"];
 
