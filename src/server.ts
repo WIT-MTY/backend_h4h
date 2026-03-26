@@ -7,6 +7,7 @@ import authRoutes from "@/routes/auth";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000"];
 
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use("/", catalogoRoutes);  
+app.use("/", catalogoRoutes); 
 app.use("/", authRoutes); 
 
 app.get("/", (req, res) => res.send("API Running"));
