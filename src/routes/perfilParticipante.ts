@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as PerfilParticipanteController from "../controllers/perfilParticipante";
+import * as PerfilParticipanteController from "../controllers/perfilParticipante.js";
 
 const router = Router();
 
