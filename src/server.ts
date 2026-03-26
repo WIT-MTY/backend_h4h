@@ -21,8 +21,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use("/api", catalogoRoutes);  
-app.use("/api", authRoutes); 
+app.use("/", catalogoRoutes);  
+app.use("/", authRoutes); 
 
 app.get("/", (req, res) => res.send("API Running"));
 
