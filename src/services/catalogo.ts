@@ -1,4 +1,4 @@
-import type { UniversidadItem } from "@/types/UniversidadItem.js";
+import type { UniversidadItem } from "../types/UniversidadItem.js";
 import { db } from "../config/db.js";
 import type { Catalog } from "../types/Catalog.js";
 
