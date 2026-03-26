@@ -23,11 +23,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use("/api", authRoutes);     
 app.use("/api", catalogoRoutes);  
+app.use("/api", authRoutes); 
 
 app.get("/", (req, res) => res.send("API Running"));
 
-app.listen(PORT, () => console.log(`Server on ${PORT}`));
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => console.log(`Server on ${PORT}`));
+}
+
 
 export default app;
