@@ -5,6 +5,7 @@ import cors from "cors";
 import catalogoRoutes from "@/routes/catalogo";
 import authRoutes from "@/routes/auth";
 import participanteRoutes from "@/routes/participante";
+import perfilParticipanteRoutes from "@/routes/perfilParticipante";
 
 dotenv.config();
 
@@ -27,11 +28,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", authRoutes);     
 app.use("/api", catalogoRoutes);  
+app.use("/api/participantes", participanteRoutes);
+app.use("/api/participantes", perfilParticipanteRoutes);
 
 app.get("/", (req, res) => res.send("API Running"));
 
 app.listen(PORT, () => console.log(`Server on ${PORT}`));
-
-app.use("/api", participanteRoutes);
 
 export default app;
