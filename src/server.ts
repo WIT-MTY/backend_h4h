@@ -1,5 +1,4 @@
-
-import express from "express";
+ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";  
 import catalogoRoutes from "@/routes/catalogo";
@@ -10,12 +9,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000"];
+
+
 app.use(cors({
-    origin: [
-        'http://localhost:3000',
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: allowedOrigins
 }));
 
 
