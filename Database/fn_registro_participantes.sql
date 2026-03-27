@@ -55,12 +55,12 @@ BEGIN
 
     -- 6. Obtener el ID del estatus 'Pendiente'
     SELECT id INTO v_estatus_pendiente_id 
-    FROM dev.estatus_participante 
+    FROM public.estatus_participante 
     WHERE descripcion = 'Pendiente' 
     LIMIT 1;
 
     -- 7. Inserción (Si llega aquí es porque pasó la validación de edad)
-    INSERT INTO dev.participante (
+    INSERT INTO public.participante (
         usuario_base_id,
         nombre,
         apellido,
