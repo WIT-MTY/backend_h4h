@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/:id", PerfilParticipanteController.getPerfilParticipante);
 router.get(
-  "/:estadoId",
+  "/estado/:estadoId",
   PerfilParticipanteController.getPerfilParticipantesByEstado,
 );
 

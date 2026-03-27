@@ -20,4 +20,18 @@ export const getPerfilParticipante = async (req: Request, res: Response) => {
 export const getPerfilParticipantesByEstado = async (
   req: Request,
   res: Response,
-) => {};
+) => {
+  try {
+    const estadoId = parseInt(req.params.estadoId as string);
+    if (isNaN(estadoId)) {
+      return res.status(400).json({ error: "ID de estado inválido" });
+    }
+    const perfiles =
+      await PerfilParticipanteService.getPerfilParticipantesByEstado(estadoId);
+    res.json(perfiles);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error al obtener perfiles de participantes por estado" });
+  }
+};
