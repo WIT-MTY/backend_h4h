@@ -109,7 +109,7 @@ export const signUp = async (
 
       // Social / Archivos
       p_linkedin_url: registerData.linkedin_url || null, // <--- Faltaba en el intento fallido
-      p_github_url: registerData.github_url || null, // <--- Faltaba en el intento fallido
+      p_github_url: registerData.github_url || null,
       p_cv_url: cvURLData,
       p_permisos_menores_url: permisoURL || null,
 
@@ -166,17 +166,17 @@ export const logIn = async (credentials: UserCredentials) => {
     email: credentials.email,
     password: credentials.password,
   });
-  
+
   if (error) throw new Error(error.message);
 
   const { rows: adminRows } = await db.query(
     `SELECT id FROM dev.administrador WHERE usuario_base_id = $1`,
-    [data.session?.user.id]
+    [data.session?.user.id],
   );
 
   const { rows: participanteRows } = await db.query(
     `SELECT id FROM dev.participante WHERE usuario_base_id = $1`,
-    [data.session?.user.id]
+    [data.session?.user.id],
   );
 
   return {
