@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import catalogoRoutes from "./routes/catalogo.js";
 import authRoutes from "./routes/auth.js";
+import { sendEmailFromTemplate } from "./services/sendMail.js";
 
 dotenv.config();
 
