@@ -4,10 +4,6 @@ Backend service for the Hack4Her event webpage — built to power registrations,
 
 This API serves as the backbone of the Hack4Her platform, supporting organizers and participants throughout the event lifecycle.
 
-## 💻 Tech Stack
-
-[![Tech](https://skillicons.dev/icons?i=ts,nextjs,postgres,nodejs&theme=dark)](https://skillicons.dev)
-
 ## Getting Started
 
 1️⃣ **Clone the repository**
@@ -57,7 +53,76 @@ backend_h4h/
 └── tsconfig.json
 ```
 
+## Endpoints
+
+### Salud del servicio
+
+| Método | Endpoint | Descripción                                              | Auth |
+| ------ | -------- | -------------------------------------------------------- | ---- |
+| GET    | `/`      | Verifica que la API esté activa. Responde `API Running`. | No   |
+
+### Autenticación
+
+| Método | Endpoint       | Descripción                                                               | Auth                |
+| ------ | -------------- | ------------------------------------------------------------------------- | ------------------- |
+| POST   | `/auth/signup` | Registra una participante y crea su perfil. Acepta `multipart/form-data`. | No                  |
+| POST   | `/auth/login`  | Inicia sesión de usuaria y devuelve la sesión/token.                      | No                  |
+| POST   | `/auth/logout` | Cierra la sesión actual en Supabase.                                      | No                  |
+| DELETE | `/auth/delete` | Elimina un usuario (el propio usuario o un admin).                        | Sí (`Bearer token`) |
+
+Campos esperados para `POST /auth/signup`:
+
+- `email` (string, requerido)
+- `password` (string, requerido)
+- `cv_file` (archivo, requerido)
+- `permiso_file` (archivo, opcional)
+- Resto de campos de registro del perfil (según formulario del frontend)
+
+Body esperado para `DELETE /auth/delete`:
+
+```json
+{
+  "userId": "<uuid-del-usuario>"
+}
+```
+
+### Catálogos
+
+Endpoints para poblar selects del frontend.
+
+| Método | Endpoint                | Descripción              | Auth |
+| ------ | ----------------------- | ------------------------ | ---- |
+| GET    | `/catalogo/pais`        | Lista países.            | No   |
+| GET    | `/catalogo/estado`      | Lista estados.           | No   |
+| GET    | `/catalogo/universidad` | Lista universidades.     | No   |
+| GET    | `/catalogo/genero`      | Lista géneros.           | No   |
+| GET    | `/catalogo/talla`       | Lista tallas de playera. | No   |
+| GET    | `/catalogo/carrera`     | Lista carreras.          | No   |
+| GET    | `/catalogo/semestre`    | Lista semestres.         | No   |
+
+### Participantes
+
+| Método | Endpoint                                  | Descripción                                                                                                | Auth |
+| ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
+| PATCH  | `/participantes/:id/estatus`              | Actualiza el estatus de una participante por ID. Valores permitidos: `Pendiente`, `Aceptado`, `Rechazado`. | No   |
+| GET    | `/participantes/:usuario_base_id`         | Obtiene el perfil completo de una participante.                                                            | No   |
+| GET    | `/participantes/estado/:estadoId`         | Obtiene participantes filtradas por estado.                                                                | No   |
+| GET    | `/participantes/estatus/:usuario_base_id` | Obtiene únicamente el estatus de una participante.                                                         | No   |
+
+Body esperado para `PATCH /participantes/:id/estatus`:
+
+```json
+{
+  "estatus": "Aceptado"
+}
+```
+
+## 💻 Tech Stack
+
+[![Tech](https://skillicons.dev/icons?i=ts,nextjs,postgres,nodejs&theme=dark)](https://skillicons.dev)
+
 ## 👩‍💻👩🏼‍💻👩🏿‍💻 Contributors
+
 <a href="https://github.com/WIT-MTY/backend_h4h/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=WIT-MTY/backend_h4h" />
 </a>
