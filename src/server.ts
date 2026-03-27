@@ -10,13 +10,18 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [
-  "http://localhost:3000",
-];
+// Normalize allowed origins
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : ["http://localhost:3000"];
 
 app.use(
   cors({
-    origin: [allowedOrigins, "http://localhost:3000", "http://192.168.1.14:3000"],
+    origin: [
+      ...allowedOrigins,
+      "http://localhost:3000",
+      "http://192.168.1.14:3000",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
@@ -33,7 +38,9 @@ app.use("/participantes", perfilParticipanteRoutes);
 app.get("/", (req, res) => res.send("API Running"));
 
 if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => console.log(`Server on ${PORT}`));
+  app.listen(process.env.PORT, () =>
+    console.log(`Server on ${process.env.PORT}`),
+  );
 }
 
 export default app;
