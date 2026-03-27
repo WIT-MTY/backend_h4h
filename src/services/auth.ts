@@ -170,12 +170,12 @@ export const logIn = async (credentials: UserCredentials) => {
   if (error) throw new Error(error.message);
 
   const { rows: adminRows } = await db.query(
-    `SELECT id FROM dev.administrador WHERE usuario_base_id = $1`,
+    `SELECT id FROM public.administrador WHERE usuario_base_id = $1`,
     [data.session?.user.id],
   );
 
   const { rows: participanteRows } = await db.query(
-    `SELECT id FROM dev.participante WHERE usuario_base_id = $1`,
+    `SELECT id FROM public.participante WHERE usuario_base_id = $1`,
     [data.session?.user.id],
   );
 

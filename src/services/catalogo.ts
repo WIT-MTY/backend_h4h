@@ -6,7 +6,7 @@ import type { Catalog } from "../types/Catalog.js";
 export const getPaises = async () => {
   const query = `
     SELECT id AS value, nom_pais AS label
-    FROM dev.pais
+    FROM public.pais
     ORDER BY nom_pais;
   `;
 
@@ -18,7 +18,7 @@ export const getPaises = async () => {
 export const getEstados = async () => {
   const query = `
     SELECT id AS value, nom_estado AS label
-    FROM dev.estado
+    FROM public.estado
     ORDER BY nom_estado;
   `;
 
@@ -30,7 +30,7 @@ export const getEstados = async () => {
 export const getUniversidades = async () => {
   const query = `
     SELECT u.id AS value, u.universidad_nombre AS label, u.estado_id AS estado
-    FROM dev.universidad u
+    FROM public.universidad u
     ORDER BY u.universidad_nombre;
   `;
 
@@ -42,7 +42,7 @@ export const getUniversidades = async () => {
 export const getGeneros = async () => {
   const query = `
     SELECT id AS value, descripcion AS label
-    FROM dev.genero
+    FROM public.genero
     ORDER BY descripcion;
   `;
 
@@ -54,7 +54,7 @@ export const getGeneros = async () => {
 export const getTallas = async () => {
   const query = `
     SELECT id AS value, descripcion as label
-    FROM dev.talla_playera
+    FROM public.talla_playera
     ORDER BY id;
   `;
 
@@ -66,7 +66,7 @@ export const getTallas = async () => {
 export const getCarreras = async () => {
   const query = `
     SELECT id AS value, carrera_nombre AS label
-    FROM dev.carrera
+    FROM public.carrera
     ORDER BY carrera_nombre;
   `;
 
@@ -78,7 +78,7 @@ export const getCarreras = async () => {
 export const getSemestres = async () => {
   const query = `
     SELECT id AS value, descripcion AS label
-    FROM dev.semestre
+    FROM public.semestre
     ORDER BY id;
   `;
 
