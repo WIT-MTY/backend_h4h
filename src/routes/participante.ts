@@ -4,6 +4,6 @@ import * as participanteController from "../controllers/participante.js";
 const router = Router();
 
 // router.patch("/participante/:id/estatus", participanteController.updateEstatus);
-router.patch("/:id/estatus", participanteController.updateEstatus);
+router.patch("/:id/estatus", participanteController.updateEstatus); //TODO: later change to updateEstatus route
 
 export default router;

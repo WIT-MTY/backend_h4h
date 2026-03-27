@@ -1,7 +1,7 @@
 import { db } from "../config/db.js";
 //TODO: Implementar types para los perfiles de participante
 
-export const getPerfilParticipante = async (id: number) => {
+export const getPerfilParticipante = async (id: string) => {
   const query = `
     SELECT 
         p.nombre,
@@ -34,7 +34,7 @@ export const getPerfilParticipante = async (id: number) => {
     JOIN public.carrera cr on p.carrera_id = cr.id
     LEFT JOIN public.semestre sm on p.semestre_id = sm.id
     LEFT JOIN public.universidad u ON p.universidad_mexico_id = u.id
-    WHERE p.id = $1; `;
+    WHERE p.usuario_base_id = $1; `;
 
   const { rows } = await db.query(query, [id]);
   return rows[0];
@@ -78,4 +78,15 @@ export const getPerfilParticipantesByEstado = async (estadoId: number) => {
 
   const { rows } = await db.query(query, [estadoId]);
   return rows;
+};
+
+export const getParticipanteEstatus = async (id: string) => {
+  const query = `
+    SELECT e.descripcion AS estatus
+    FROM public.participante p
+    JOIN public.estatus_participante e ON p.estatus_participante_id = e.id
+    WHERE p.usuario_base_id = $1;`;
+
+  const { rows } = await db.query(query, [id]);
+  return rows[0]?.estatus || null;
 };
