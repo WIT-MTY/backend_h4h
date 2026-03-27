@@ -3,10 +3,17 @@ import * as PerfilParticipanteController from "../controllers/perfilParticipante
 
 const router = Router();
 
-router.get("/:id", PerfilParticipanteController.getPerfilParticipante);
+router.get(
+  "/:usuario_base_id",
+  PerfilParticipanteController.getPerfilParticipante,
+);
 router.get(
   "/estado/:estadoId",
   PerfilParticipanteController.getPerfilParticipantesByEstado,
+);
+router.get(
+  "/estatus/:usuario_base_id",
+  PerfilParticipanteController.getParticipanteEstatus,
 );
 
 export default router;
