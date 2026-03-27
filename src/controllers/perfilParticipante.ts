@@ -7,7 +7,7 @@ export const getPerfilParticipante = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "ID inválido" });
     }
     const perfil = await PerfilParticipanteService.getPerfilParticipante(
-      req.params.usuario_base_id,
+      req.params.usuario_base_id as string,
     );
     if (!perfil) {
       return res.status(404).json({ error: "Participante no encontrado" });
@@ -24,7 +24,7 @@ export const getParticipanteEstatus = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "ID inválido" });
     }
     const estatus = await PerfilParticipanteService.getParticipanteEstatus(
-      req.params.usuario_base_id,
+      req.params.usuario_base_id as string,
     );
     if (!estatus) {
       return res.status(404).json({ error: "Participante no encontrado" });
