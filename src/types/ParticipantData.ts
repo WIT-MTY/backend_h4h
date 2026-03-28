@@ -22,6 +22,7 @@ export interface ParticipantRegisterData {
 
 export interface ParticipantData extends ParticipantRegisterData {
   usuario_base_id: string;
+  email: string;
   estatus_participante_id: number;
   opcion_reto_1_id: number;
   opcion_reto_2_id: number;
