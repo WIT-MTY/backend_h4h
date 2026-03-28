@@ -94,14 +94,41 @@ export const getParticipanteEstatus = async (id: string) => {
 
 export const getParticiopantes = async () => {
   const query = `
-    SELECT 
-      p.*, 
-      u.email
-    FROM 
+  SELECT 
+      p.id,
+      p.usuario_base_id,
+      p.nombre,
+      p.apellido,
+      u.email,
+      p.fecha_nacimiento,
+      p.telefono,
+      p.linkedin_url,
+      p.github_url,
+      p.cv_url,
+      p.vegana,
+      p.tiene_restriccion_alimentaria,
+      p.detalle_restriccion_alimentaria,
+      p.universidad_extranjera,
+      g.descripcion AS genero,
+      pa.nom_pais AS pais,
+      e.nom_estado AS estado,
+      s.descripcion AS semestre,
+      un.universidad_nombre  AS universidad_mexico,
+      c.carrera_nombre AS carrera,
+      ep.descripcion AS estatus,
+      tp.descripcion AS talla_playera
+  FROM 
       public.participante p
-    JOIN 
-      auth.users u ON p.usuario_base_id = u.id;`;
+  JOIN auth.users u ON p.usuario_base_id = u.id
+  LEFT JOIN public.genero g ON p.genero_id = g.id
+  LEFT JOIN public.pais pa ON p.pais_id = pa.id
+  LEFT JOIN public.estado e ON p.estado_id = e.id
+  LEFT JOIN public.semestre s ON p.semestre_id = s.id
+  LEFT JOIN public.universidad un ON p.universidad_mexico_id = un.id
+  LEFT JOIN public.carrera c ON p.carrera_id = c.id
+  LEFT JOIN public.estatus_participante ep ON p.estatus_participante_id = ep.id
+  LEFT JOIN public.talla_playera tp ON p.talla_playera_id = tp.id;`;
 
   const { rows } = await db.query(query);
-  return rows as ParticipantData[];
+  return rows;
 };
