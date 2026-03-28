@@ -37,21 +37,33 @@ export const getParticipanteEstatus = async (req: Request, res: Response) => {
   }
 };
 
-export const getPerfilParticipantesByEstado = async (
-  req: Request,
-  res: Response,
-) => {
+export const getParticipantes = async (req: Request, res: Response) => {
   try {
-    const estadoId = parseInt(req.params.estadoId as string);
-    if (isNaN(estadoId)) {
-      return res.status(400).json({ error: "ID de estado inválido" });
-    }
-    const perfiles =
-      await PerfilParticipanteService.getPerfilParticipantesByEstado(estadoId);
-    res.json(perfiles);
+    const participantes = await PerfilParticipanteService.getParticiopantes();
+    res.json(participantes);
   } catch (error) {
     res
       .status(500)
-      .json({ error: "Error al obtener perfiles de participantes por estado" });
+      .json({ error: "Error al obtener la lista de participantes" });
   }
 };
+
+// export const getFilteredPerfiles = async (
+//   req: Request,
+//   res: Response,
+// ) => {
+//   try {
+//     const { type, value_id } = req.body;
+//     const estadoId = parseInt(req.params.estadoId as string);
+//     if (isNaN(estadoId)) {
+//       return res.status(400).json({ error: "ID de estado inválido" });
+//     }
+//     const perfiles =
+//       await PerfilParticipanteService.getPerfilParticipantesByEstado(estadoId);
+//     res.json(perfiles);
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ error: "Error al obtener perfiles de participantes por estado" });
+//   }
+// };

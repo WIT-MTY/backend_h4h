@@ -1,3 +1,4 @@
+import type { ParticipantData } from "src/types/ParticipantData.js";
 import { db } from "../config/db.js";
 //TODO: Implementar types para los perfiles de participante
 
@@ -89,4 +90,12 @@ export const getParticipanteEstatus = async (id: string) => {
 
   const { rows } = await db.query(query, [id]);
   return rows[0]?.estatus || null;
+};
+
+export const getParticiopantes = async () => {
+  const query = `
+    SELECT * FROM public.participante;`;
+
+  const { rows } = await db.query(query);
+  return rows as ParticipantData[];
 };
