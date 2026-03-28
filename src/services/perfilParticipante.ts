@@ -94,7 +94,13 @@ export const getParticipanteEstatus = async (id: string) => {
 
 export const getParticiopantes = async () => {
   const query = `
-    SELECT * FROM public.participante;`;
+    SELECT 
+      p.*, 
+      u.email
+    FROM 
+      public.participante p
+    JOIN 
+      auth.users u ON p.usuario_base_id = u.id;`;
 
   const { rows } = await db.query(query);
   return rows as ParticipantData[];
