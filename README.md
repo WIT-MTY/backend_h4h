@@ -104,16 +104,17 @@ Endpoints para poblar selects del frontend.
 
 | Método | Endpoint                                  | Descripción                                                                                                | Auth |
 | ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
-| PATCH  | `/participantes/:id/estatus`              | Actualiza el estatus de una participante por ID. Valores permitidos: `Pendiente`, `Aceptado`, `Rechazado`. | No   |
+| PATCH  | `/participantes/:usuario_base_id/estatus`              | Actualiza el estatus de una participante por ID. Valores permitidos: 1, 2, 3. | No   |
 | GET    | `/participantes/:usuario_base_id`         | Obtiene el perfil completo de una participante.                                                            | No   |
 | GET    | `/participantes/estado/:estadoId`         | Obtiene participantes filtradas por estado.                                                                | No   |
 | GET    | `/participantes/estatus/:usuario_base_id` | Obtiene únicamente el estatus de una participante.                                                         | No   |
 
-Body esperado para `PATCH /participantes/:id/estatus`:
+
+Body esperado para `PATCH /participantes/:usuario_base_id/estatus`:
 
 ```json
 {
-  "estatus": "Aceptado"
+  "estatus": 1
 }
 ```
 

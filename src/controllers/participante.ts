@@ -14,17 +14,17 @@ export const updateEstatus = async (req: Request, res: Response) => {
     }
 
     // Validación de valores permitidos (ajústalos si cambian en tu DB)
-    const validEstatusIds = ["Pendiente", "Aceptado", "Rechazado"];
+    const validEstatusIds = [1, 2, 3];
 
-    if (!validEstatusIds.includes(estatus)) {
+    if (!validEstatusIds.includes(Number(estatus))) {
       return res.status(400).json({
         error: "estatus inválido",
       });
     }
 
     const result = await participanteService.updateEstatus(
-      Number(id),
-      estatus
+      String(id),
+      Number(estatus)
     );
 
     if (!result) {
