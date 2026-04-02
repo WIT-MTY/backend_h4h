@@ -5,6 +5,7 @@ import catalogoRoutes from "./routes/catalogo.js";
 import authRoutes from "./routes/auth.js";
 import participanteRoutes from "./routes/participante.js";
 import perfilParticipanteRoutes from "./routes/perfilParticipante.js";
+import equiposRoutes from "./routes/equipos.js";
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use("/", authRoutes);
 app.use("/", catalogoRoutes);
 app.use("/participantes", participanteRoutes);
 app.use("/participantes", perfilParticipanteRoutes);
+app.use("/equipos", equiposRoutes);
 
 app.get("/", (req, res) => res.send("API Running"));
 

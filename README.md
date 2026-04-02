@@ -118,6 +118,11 @@ Body esperado para `PATCH /participantes/:usuario_base_id/estatus`:
 }
 ```
 
+## Equipos
+| Método | Endpoint                                  | Descripción                                                                                                | Auth |
+| ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
+| GET    | `/equipos/:equipoId`                    | Obtiene la información de un equipo por ID.                                                                | No   |
+
 ## 💻 Tech Stack
 
 [![Tech](https://skillicons.dev/icons?i=ts,nextjs,postgres,nodejs&theme=dark)](https://skillicons.dev)
