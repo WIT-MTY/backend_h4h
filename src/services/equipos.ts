@@ -28,8 +28,8 @@ export const getEquipo = async (id: string) => {
 export const retosElegidos = async () => {
     const query = `
     SELECT r.titulo, COUNT(*) as total
-    FROM dev.equipo e
-    JOIN dev.reto r on e.opcion1_reto_id = r.id
+    FROM equipo e
+    JOIN reto r on e.opcion1_reto_id = r.id
     GROUP BY r.titulo;`;
 
     const { rows } = await db.query(query);
