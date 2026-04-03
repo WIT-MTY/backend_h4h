@@ -122,6 +122,7 @@ Body esperado para `PATCH /participantes/:usuario_base_id/estatus`:
 | Método | Endpoint                                  | Descripción                                                                                                | Auth |
 | ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
 | GET    | `/equipos/:equipoId`                    | Obtiene la información de un equipo por ID.                                                                | No   |
+| GET    | `/equipos/retos/elegidos`               | Obtiene número de veces que un reto fue elegido como opción #1.                                                        | No   |
 
 ## 💻 Tech Stack
 

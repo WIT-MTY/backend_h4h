@@ -12,3 +12,7 @@ export interface EquipoData {
     fecha_creacion: Date;
     fecha_validacion: Date | null;
 }
+
+// export interface RetoData {
+
+// }
