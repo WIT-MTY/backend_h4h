@@ -128,6 +128,8 @@ Body esperado para `PATCH /participantes/:usuario_base_id/estatus`:
 | Método | Endpoint                                  | Descripción                                                                                                | Auth |
 | ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
 | GET    | `/metricas/seccion1`        | Obtiene metricas en la sección 1 descritas en docs.                                                                | No   |
+| GET    | `/metricas/seccion2`        | Obtiene metricas en la sección 2 descritas en docs.                                                                | No   |
+| GET    | `/metricas/seccion3`        | Obtiene metricas en la sección 3 descritas en docs.                                                                | No   |
 
 
 ## 💻 Tech Stack

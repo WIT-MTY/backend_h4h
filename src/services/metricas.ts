@@ -91,3 +91,17 @@ export const getMetricaSeccion1 = async () => {
   const { rows } = await db.query(query);
   return rows[0];
 } 
+
+export const getMetricaSeccion3 = async () => {
+  const query = `
+  SELECT
+    e.nom_estado AS estado,
+    COUNT(*) AS total
+  FROM participante p
+  JOIN estado e ON p.estado_id = e.id
+  WHERE p.estatus_participante_id = 1
+  GROUP BY estado;`;
+
+  const { rows } = await db.query(query);
+  return rows;
+}

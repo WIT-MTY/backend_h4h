@@ -10,3 +10,13 @@ export const getMetricaSeccion1 = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Error al obtener las métricas' });
   }
 }
+
+export const getMetricaSeccion3 = async (req: Request, res: Response) => {
+  try {
+    const metrica = await MetricaService.getMetricaSeccion3();
+    res.json(metrica);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Error al obtener las métricas' });
+  }
+}

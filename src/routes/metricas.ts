@@ -11,4 +11,9 @@ router.get(
     MetricaController.getMetricaSeccion1,
 );
 
+router.get(
+    '/seccion3',
+    MetricaController.getMetricaSeccion3,
+);
+
 export default router;
