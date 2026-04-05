@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.js";
 import participanteRoutes from "./routes/participante.js";
 import perfilParticipanteRoutes from "./routes/perfilParticipante.js";
 import equiposRoutes from "./routes/equipos.js";
+import metricaRoutes from "./routes/metricas.js";
 
 dotenv.config();
 
@@ -36,7 +37,7 @@ app.use("/", catalogoRoutes);
 app.use("/participantes", participanteRoutes);
 app.use("/participantes", perfilParticipanteRoutes);
 app.use("/equipos", equiposRoutes);
-
+app.use("/metricas", metricaRoutes);
 app.get("/", (req, res) => res.send("API Running"));
 
 if (process.env.NODE_ENV !== "production") {

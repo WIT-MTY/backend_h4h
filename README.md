@@ -124,6 +124,12 @@ Body esperado para `PATCH /participantes/:usuario_base_id/estatus`:
 | GET    | `/equipos/:equipoId`                    | Obtiene la información de un equipo por ID.                                                                | No   |
 | GET    | `/equipos/retos/elegidos`               | Obtiene número de veces que un reto fue elegido como opción #1.                                                        | No   |
 
+## Metricas
+| Método | Endpoint                                  | Descripción                                                                                                | Auth |
+| ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
+| GET    | `/metricas/seccion1`        | Obtiene metricas en la sección 1 descritas en docs.                                                                | No   |
+
+
 ## 💻 Tech Stack
 
 [![Tech](https://skillicons.dev/icons?i=ts,nextjs,postgres,nodejs&theme=dark)](https://skillicons.dev)
