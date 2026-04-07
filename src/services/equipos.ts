@@ -35,6 +35,20 @@ export const retosElegidos = async () => {
     return rows;
 }
 
+export const retosElegidosPorEquipo = async () => {
+    const query = `
+    SELECT
+        e.nombre,
+        r1.titulo AS opcion1,
+        r2.titulo AS opcion2
+    FROM equipo e
+    JOIN reto r1 ON e.opcion1_reto_id = r1.id
+    JOIN reto r2 ON e.opcion2_reto_id = r2.id;`;
+
+    const { rows } = await db.query(query);
+    return rows;
+}
+
 
 // -------------------------------------------------------------------
 // QUERY PARA DEV SCHEME
@@ -55,5 +69,4 @@ export const retosElegidos = async () => {
 //     LEFT JOIN dev.participante p2 ON e.participante2_id = p2.id
 //     LEFT JOIN dev.participante p3 ON e.participante3_id = p3.id
 //     LEFT JOIN dev.participante p4 ON e.participante4_id = p4.id
-//     JOIN dev.estatus_equipo est ON e.estatus_equipo_id = est.id
-//     WHERE e.id = $1;`;
+//     JOIN dev.estatus_equipo est ON e.estatus_equipo_id = est.id`;

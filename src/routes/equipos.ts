@@ -16,5 +16,10 @@ router.get(
     EquipoController.getEquipos,
 );
 
+router.get(
+    "/retos/porEquipo",
+    EquipoController.getRetosElegidosPorEquipo,
+)
+
 
 export default router;

@@ -28,3 +28,13 @@ export const getRetosElegidos = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Error al obtener los retos elegidos' });
   }
 }
+
+export const getRetosElegidosPorEquipo = async (req: Request, res: Response) => {
+  try {
+    const retosPorEquipo = await EquipoService.retosElegidosPorEquipo();
+    res.json(retosPorEquipo);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Error al obtener los retos elegidos por equipo' });
+  }
+}

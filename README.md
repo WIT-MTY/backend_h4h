@@ -123,6 +123,7 @@ Body esperado para `PATCH /participantes/:usuario_base_id/estatus`:
 | ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
 | GET    | `/equipos/resumen`                    | Obtiene la información de los equipos.                                                                     | No   |
 | GET    | `/equipos/retos/elegidos`               | Obtiene número de veces que un reto fue elegido como opción #1.                                                        | No   |
+| GET    | `/equipos/retos/porEquipo`               | Obtiene los retos elegidos por cada equipo.                                                        | No   |
 
 ## Metricas
 | Método | Endpoint                                  | Descripción                                                                                                | Auth |
