@@ -105,6 +105,7 @@ Endpoints para poblar selects del frontend.
 | Método | Endpoint                                  | Descripción                                                                                                | Auth |
 | ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
 | PATCH  | `/participantes/:usuario_base_id/estatus`              | Actualiza el estatus de una participante por ID. Valores permitidos: 1, 2, 3. | No   |
+| GET    | `/participantes`                          | Obtiene una lista de todas las participantes registradas.                                                   | No   |
 | GET    | `/participantes/:usuario_base_id`         | Obtiene el perfil completo de una participante.                                                            | No   |
 | GET    | `/participantes/estado/:estadoId`         | Obtiene participantes filtradas por estado.                                                                | No   |
 | GET    | `/participantes/estatus/:usuario_base_id` | Obtiene únicamente el estatus de una participante.                                                         | No   |
