@@ -12,6 +12,11 @@ router.get(
 );
 
 router.get(
+    '/seccion2',
+    MetricaController.getMetricaSeccion2,
+);
+
+router.get(
     '/seccion3',
     MetricaController.getMetricaSeccion3,
 );

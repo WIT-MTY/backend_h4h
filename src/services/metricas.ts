@@ -92,6 +92,73 @@ export const getMetricaSeccion1 = async () => {
   return rows[0];
 } 
 
+export const getMetricaSeccion2 = async () => {
+  const query = `
+  SELECT 
+
+  -- Universidades extranjeras
+  (
+    SELECT json_agg(x)
+    FROM (
+      SELECT
+        p.universidad_extranjera AS universidad,
+        COUNT(*) AS total
+      FROM participante p
+      WHERE p.universidad_extranjera IS NOT NULL
+        AND p.estatus_participante_id = 1
+      GROUP BY p.universidad_extranjera
+    ) x
+  ) AS universidades_extranjeras,
+
+  -- Universidades México
+  (
+    SELECT json_agg(x)
+    FROM (
+      SELECT
+        u.universidad_nombre AS universidad,
+        COUNT(*) AS total
+      FROM participante p
+      JOIN universidad u ON p.universidad_mexico_id = u.id
+      WHERE p.estatus_participante_id = 1
+      GROUP BY u.universidad_nombre
+      ORDER BY total DESC
+    ) x
+  ) AS universidades_mexico,
+
+  -- Carreras
+  (
+    SELECT json_agg(x)
+    FROM (
+      SELECT
+        c.carrera_nombre AS carrera,
+        COUNT(*) AS total
+      FROM participante p
+      JOIN carrera c ON p.carrera_id = c.id
+      WHERE p.estatus_participante_id = 1
+      GROUP BY c.carrera_nombre
+      ORDER BY total DESC
+    ) x
+  ) AS carreras,
+
+  -- Semestres
+  (
+    SELECT json_agg(x)
+    FROM (
+      SELECT
+        s.descripcion AS semestre,
+        COUNT(*) AS total
+      FROM participante p
+      JOIN semestre s ON p.semestre_id = s.id
+      WHERE p.estatus_participante_id = 1
+      GROUP BY s.descripcion
+      ORDER BY s.descripcion ASC
+    ) x
+  ) AS semestres;`;
+
+  const { rows } = await db.query(query);
+  return rows[0];
+}
+
 export const getMetricaSeccion3 = async () => {
   const query = `
   SELECT
