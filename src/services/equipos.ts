@@ -1,7 +1,7 @@
 import { db } from "../config/db.js";
 import type { EquipoData } from "src/types/EquipoData.js";
 
-export const getEquipo = async (id: string) => {
+export const getEquipos = async () => {
     const query = `
     SELECT
         e.id,
@@ -18,11 +18,10 @@ export const getEquipo = async (id: string) => {
     LEFT JOIN participante p2 ON e.participante2_id = p2.id
     LEFT JOIN participante p3 ON e.participante3_id = p3.id
     LEFT JOIN participante p4 ON e.participante4_id = p4.id
-    JOIN estatus_equipo est ON e.estatus_equipo_id = est.id
-    WHERE e.id = $1;`;
+    JOIN estatus_equipo est ON e.estatus_equipo_id = est.id;`;
 
-    const { rows } = await db.query(query, [id]);
-    return rows[0];
+    const { rows } = await db.query(query);
+    return rows;
 }
 
 export const retosElegidos = async () => {

@@ -12,8 +12,8 @@ router.get(
 );
 
 router.get(
-    "/:equipoId",
-    EquipoController.getEquipoById,
+    "/:resumen",
+    EquipoController.getEquipos,
 );
 
 
