@@ -104,18 +104,35 @@ Endpoints para poblar selects del frontend.
 
 | Método | Endpoint                                  | Descripción                                                                                                | Auth |
 | ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
-| PATCH  | `/participantes/:id/estatus`              | Actualiza el estatus de una participante por ID. Valores permitidos: `Pendiente`, `Aceptado`, `Rechazado`. | No   |
+| PATCH  | `/participantes/:usuario_base_id/estatus`              | Actualiza el estatus de una participante por ID. Valores permitidos: 1, 2, 3. | No   |
+| GET    | `/participantes`                          | Obtiene una lista de todas las participantes registradas.                                                   | No   |
 | GET    | `/participantes/:usuario_base_id`         | Obtiene el perfil completo de una participante.                                                            | No   |
 | GET    | `/participantes/estado/:estadoId`         | Obtiene participantes filtradas por estado.                                                                | No   |
 | GET    | `/participantes/estatus/:usuario_base_id` | Obtiene únicamente el estatus de una participante.                                                         | No   |
 
-Body esperado para `PATCH /participantes/:id/estatus`:
+
+Body esperado para `PATCH /participantes/:usuario_base_id/estatus`:
 
 ```json
 {
-  "estatus": "Aceptado"
+  "estatus": 1
 }
 ```
+
+## Equipos
+| Método | Endpoint                                  | Descripción                                                                                                | Auth |
+| ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
+| GET    | `/equipos/resumen`                    | Obtiene la información de los equipos.                                                                     | No   |
+| GET    | `/equipos/retos/elegidos`               | Obtiene número de veces que un reto fue elegido como opción #1.                                                        | No   |
+| GET    | `/equipos/retos/porEquipo`               | Obtiene los retos elegidos por cada equipo.                                                        | No   |
+
+## Metricas
+| Método | Endpoint                                  | Descripción                                                                                                | Auth |
+| ------ | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---- |
+| GET    | `/metricas/seccion1`        | Obtiene metricas en la sección 1 descritas en docs.                                                                | No   |
+| GET    | `/metricas/seccion2`        | Obtiene metricas en la sección 2 descritas en docs.                                                                | No   |
+| GET    | `/metricas/seccion3`        | Obtiene metricas en la sección 3 descritas en docs.                                                                | No   |
+
 
 ## 💻 Tech Stack
 

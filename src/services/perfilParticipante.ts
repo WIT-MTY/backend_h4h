@@ -116,7 +116,13 @@ export const getParticiopantes = async () => {
       un.universidad_nombre  AS universidad_mexico,
       c.carrera_nombre AS carrera,
       ep.descripcion AS estatus,
-      tp.descripcion AS talla_playera
+      tp.descripcion AS talla_playera,
+      CASE
+        WHEN DATE_PART('year', AGE(p.fecha_nacimiento)) < 18
+        THEN p.permiso_menoredad
+        ELSE NULL
+      END AS permiso_menor,
+      p.fecha_validacion
   FROM 
       public.participante p
   JOIN auth.users u ON p.usuario_base_id = u.id

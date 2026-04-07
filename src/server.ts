@@ -5,6 +5,8 @@ import catalogoRoutes from "./routes/catalogo.js";
 import authRoutes from "./routes/auth.js";
 import participanteRoutes from "./routes/participante.js";
 import perfilParticipanteRoutes from "./routes/perfilParticipante.js";
+import equiposRoutes from "./routes/equipos.js";
+import metricaRoutes from "./routes/metricas.js";
 
 dotenv.config();
 
@@ -22,7 +24,7 @@ app.use(
       "http://localhost:3000",
       "http://192.168.1.14:3000",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
@@ -34,7 +36,8 @@ app.use("/", authRoutes);
 app.use("/", catalogoRoutes);
 app.use("/participantes", participanteRoutes);
 app.use("/participantes", perfilParticipanteRoutes);
-
+app.use("/equipos", equiposRoutes);
+app.use("/metricas", metricaRoutes);
 app.get("/", (req, res) => res.send("API Running"));
 
 if (process.env.NODE_ENV !== "production") {
