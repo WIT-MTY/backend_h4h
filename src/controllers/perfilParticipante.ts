@@ -39,7 +39,7 @@ export const getParticipanteEstatus = async (req: Request, res: Response) => {
 
 export const getParticipantes = async (req: Request, res: Response) => {
   try {
-    const participantes = await PerfilParticipanteService.getParticiopantes();
+    const participantes = await PerfilParticipanteService.getParticipantes();
     res.json(participantes);
   } catch (error) {
     res

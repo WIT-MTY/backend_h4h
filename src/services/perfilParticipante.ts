@@ -44,7 +44,7 @@ export const getPerfilParticipante = async (id: string) => {
 export const getPerfilParticipantesByEstado = async (estadoId: number) => {
   const query = `
     SELECT 
-        p.id,
+        p.usuario_base_id,
         p.nombre,
         p.apellido,
         g.descripcion AS genero,
@@ -92,10 +92,9 @@ export const getParticipanteEstatus = async (id: string) => {
   return rows[0]?.estatus || null;
 };
 
-export const getParticiopantes = async () => {
+export const getParticipantes = async () => {
   const query = `
   SELECT 
-      p.id,
       p.usuario_base_id,
       p.nombre,
       p.apellido,
