@@ -1,7 +1,7 @@
 import { db } from "../config/db.js";
 
 export const getMetricaSeccion1 = async () => {
-    const query = `
+  const query = `
     SELECT 
     -- Estatus
     (
@@ -87,10 +87,10 @@ export const getMetricaSeccion1 = async () => {
         GROUP BY tipo
       ) x
     ) AS nacionalidad;`;
-   
+
   const { rows } = await db.query(query);
   return rows[0];
-} 
+};
 
 export const getMetricaSeccion2 = async () => {
   const query = `
@@ -130,12 +130,12 @@ export const getMetricaSeccion2 = async () => {
     SELECT json_agg(x)
     FROM (
       SELECT
-        c.carrera_nombre AS carrera,
+        c.descripcion AS carrera,
         COUNT(*) AS total
       FROM participante p
       JOIN carrera c ON p.carrera_id = c.id
       WHERE p.estatus_participante_id = 1
-      GROUP BY c.carrera_nombre
+      GROUP BY c.descripcion
       ORDER BY total DESC
     ) x
   ) AS carreras,
@@ -157,12 +157,12 @@ export const getMetricaSeccion2 = async () => {
 
   const { rows } = await db.query(query);
   return rows[0];
-}
+};
 
 export const getMetricaSeccion3 = async () => {
   const query = `
   SELECT
-    e.nom_estado AS estado,
+    e.descripcion AS estado,
     COUNT(*) AS total
   FROM participante p
   JOIN estado e ON p.estado_id = e.id
@@ -171,4 +171,4 @@ export const getMetricaSeccion3 = async () => {
 
   const { rows } = await db.query(query);
   return rows;
-}
+};
