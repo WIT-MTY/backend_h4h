@@ -175,7 +175,7 @@ export const logIn = async (credentials: UserCredentials) => {
   );
 
   const { rows: participanteRows } = await db.query(
-    `SELECT id FROM public.participante WHERE usuario_base_id = $1`,
+    `SELECT usuario_base_id FROM public.participante WHERE usuario_base_id = $1`,
     [data.session?.user.id],
   );
 

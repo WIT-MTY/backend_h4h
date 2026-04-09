@@ -12,13 +12,13 @@ export const getPerfilParticipante = async (id: string) => {
         p.fecha_nacimiento,
         p.telefono,
         --e.descripcion AS estatus,
-        c.nom_pais AS pais,
-        s.nom_estado AS estado,
+        c.descripcion AS pais,
+        s.descripcion AS estado,
         CASE 
             WHEN p.universidad_mexico_id IS NOT NULL THEN u.universidad_nombre
             ELSE p.universidad_extranjera
         END AS universidad,
-        cr.carrera_nombre AS carrera,
+        cr.descripcion AS carrera,
         sm.descripcion AS semestre,
         p.vegana,
         p.tiene_restriccion_alimentaria,
@@ -44,7 +44,7 @@ export const getPerfilParticipante = async (id: string) => {
 export const getPerfilParticipantesByEstado = async (estadoId: number) => {
   const query = `
     SELECT 
-        p.id,
+        p.usuario_base_id,
         p.nombre,
         p.apellido,
         g.descripcion AS genero,
@@ -52,13 +52,13 @@ export const getPerfilParticipantesByEstado = async (estadoId: number) => {
         p.fecha_nacimiento,
         p.telefono,
         --e.descripcion AS estatus,
-        c.nom_pais AS pais,
-        s.nom_estado AS estado,
+        c.descripcion AS pais,
+        s.descripcion AS estado,
         CASE 
             WHEN p.universidad_mexico_id IS NOT NULL THEN u.universidad_nombre
             ELSE p.universidad_extranjera
         END AS universidad,
-        cr.carrera_nombre AS carrera,
+        cr.descripcion AS carrera,
         sm.descripcion AS semestre,
         p.vegana,
         p.tiene_restriccion_alimentaria,
@@ -92,10 +92,9 @@ export const getParticipanteEstatus = async (id: string) => {
   return rows[0]?.estatus || null;
 };
 
-export const getParticiopantes = async () => {
+export const getParticipantes = async () => {
   const query = `
   SELECT 
-      p.id,
       p.usuario_base_id,
       p.nombre,
       p.apellido,
@@ -110,11 +109,11 @@ export const getParticiopantes = async () => {
       p.detalle_restriccion_alimentaria,
       p.universidad_extranjera,
       g.descripcion AS genero,
-      pa.nom_pais AS pais,
-      e.nom_estado AS estado,
+      pa.descripcion AS pais,
+      e.descripcion AS estado,
       s.descripcion AS semestre,
       un.universidad_nombre  AS universidad_mexico,
-      c.carrera_nombre AS carrera,
+      c.descripcion AS carrera,
       ep.descripcion AS estatus,
       tp.descripcion AS talla_playera,
       CASE

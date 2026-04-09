@@ -5,9 +5,9 @@ import type { Catalog } from "../types/Catalog.js";
 //
 export const getPaises = async () => {
   const query = `
-    SELECT id AS value, nom_pais AS label
+    SELECT id AS value, descripcion AS label
     FROM public.pais
-    ORDER BY nom_pais;
+    ORDER BY descripcion;
   `;
 
   const { rows } = await db.query(query);
@@ -17,9 +17,9 @@ export const getPaises = async () => {
 //
 export const getEstados = async () => {
   const query = `
-    SELECT id AS value, nom_estado AS label
+    SELECT id AS value, descripcion AS label
     FROM public.estado
-    ORDER BY nom_estado;
+    ORDER BY descripcion;
   `;
 
   const { rows } = await db.query(query);
@@ -65,9 +65,9 @@ export const getTallas = async () => {
 //
 export const getCarreras = async () => {
   const query = `
-    SELECT id AS value, carrera_nombre AS label
+    SELECT id AS value, descripcion AS label
     FROM public.carrera
-    ORDER BY carrera_nombre;
+    ORDER BY descripcion;
   `;
 
   const { rows } = await db.query(query);

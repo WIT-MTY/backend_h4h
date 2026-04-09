@@ -6,20 +6,16 @@ const router = Router();
 
 router.use(protectRoute);
 
-router.get(
-    "/retos/elegidos",
-    EquipoController.getRetosElegidos,
-);
+router.get("/retos/elegidos", EquipoController.getRetosElegidos);
 
-router.get(
-    "/:resumen",
-    EquipoController.getEquipos,
-);
+router.get("/:resumen", EquipoController.getEquipos);
 
-router.get(
-    "/retos/porEquipo",
-    EquipoController.getRetosElegidosPorEquipo,
-)
+router.get("/retos/porEquipo", EquipoController.getRetosElegidosPorEquipo);
 
+router.post("/create", EquipoController.createTeam);
+router.post("/join/:equipo_codigo_entrada", EquipoController.joinTeam);
+router.get("/myteam", EquipoController.getMyTeam); // obtener equipo si el usuario es líder o participante o si no pertenece a ningún equipo
+// router.post("/leave", protectRoute, teamController.leaveTeam);
+// router.post("/delete", protectRoute, teamController.deleteTeam);
 
 export default router;
