@@ -183,3 +183,9 @@ export const joinTeam = async (
   const { rows } = await db.query(updateQuery, [userId, equipo_codigo_entrada]);
   return rows[0];
 };
+
+export const getTeamLeader = async (equipoId: number) => {
+  const query = `SELECT lider_id FROM equipo WHERE id = $1`;
+  const { rows } = await db.query(query, [equipoId]);
+  return rows[0]?.lider_id;
+};
