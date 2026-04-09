@@ -13,6 +13,6 @@ router.get("/", RetosController.getAllRetos);
 router.get("/mi-equipo", RetosController.getMiEquipo);
 
 // PUT /retos/equipo/:equipoId - actualizar opciones (solo líder)
-router.put("/equipo/:equipoId", RetosController.updateRetosEquipo);
+router.put("/elegir", RetosController.updateRetosEquipo);
 
 export default router;
