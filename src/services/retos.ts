@@ -44,7 +44,7 @@ export const getMiEquipo = async (usuarioBaseId: string) => {
 export const updateRetosEquipo = async (
   equipoId: number,
   opcion1RetoId: number,
-  opcion2RetoId: number
+  opcion2RetoId: number,
 ) => {
   const query = `
     UPDATE equipo 
@@ -52,6 +52,10 @@ export const updateRetosEquipo = async (
     WHERE id = $1
     RETURNING *
   `;
-  const { rows } = await db.query(query, [equipoId, opcion1RetoId, opcion2RetoId]);
+  const { rows } = await db.query(query, [
+    equipoId,
+    opcion1RetoId,
+    opcion2RetoId,
+  ]);
   return rows[0];
 };
