@@ -7,7 +7,7 @@ export const updateEstatus = async (id: string, estatus: number) => {
     estatus_participante_id = $1,
     fecha_validacion = NOW() AT TIME ZONE 'America/Mexico_City'
     WHERE usuario_base_id = $2
-    RETURNING id, usuario_base_id, estatus_participante_id, fecha_validacion;
+    RETURNING usuario_base_id, estatus_participante_id, fecha_validacion;
   `;
 
   const values = [estatus, id];

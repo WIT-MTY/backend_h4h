@@ -2,7 +2,7 @@ import { db } from "../config/db.js";
 import type { EquipoData } from "src/types/EquipoData.js";
 
 export const getEquipos = async () => {
-    const query = `
+  const query = `
     SELECT
         e.id,
         e.nombre,
@@ -14,29 +14,29 @@ export const getEquipos = async () => {
         e.fecha_validacion,
         est.descripcion AS estatus
     FROM equipo e
-    LEFT JOIN participante l ON e.lider_id = l.id
-    LEFT JOIN participante p2 ON e.participante2_id = p2.id
-    LEFT JOIN participante p3 ON e.participante3_id = p3.id
-    LEFT JOIN participante p4 ON e.participante4_id = p4.id
+    LEFT JOIN participante l ON e.lider_id = l.usuario_base_id
+    LEFT JOIN participante p2 ON e.participante2_id = p2.usuario_base_id
+    LEFT JOIN participante p3 ON e.participante3_id = p3.usuario_base_id
+    LEFT JOIN participante p4 ON e.participante4_id = p4.usuario_base_id
     JOIN estatus_equipo est ON e.estatus_equipo_id = est.id;`;
 
-    const { rows } = await db.query(query);
-    return rows;
-}
+  const { rows } = await db.query(query);
+  return rows;
+};
 
 export const retosElegidos = async () => {
-    const query = `
+  const query = `
     SELECT r.titulo, COUNT(*) as total
     FROM equipo e
     JOIN reto r on e.opcion1_reto_id = r.id
     GROUP BY r.titulo;`;
 
-    const { rows } = await db.query(query);
-    return rows;
-}
+  const { rows } = await db.query(query);
+  return rows;
+};
 
 export const retosElegidosPorEquipo = async () => {
-    const query = `
+  const query = `
     SELECT
         e.nombre,
         r1.titulo AS opcion1,
@@ -45,10 +45,9 @@ export const retosElegidosPorEquipo = async () => {
     JOIN reto r1 ON e.opcion1_reto_id = r1.id
     JOIN reto r2 ON e.opcion2_reto_id = r2.id;`;
 
-    const { rows } = await db.query(query);
-    return rows;
-}
-
+  const { rows } = await db.query(query);
+  return rows;
+};
 
 // -------------------------------------------------------------------
 // QUERY PARA DEV SCHEME
