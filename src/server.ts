@@ -7,6 +7,7 @@ import participanteRoutes from "./routes/participante.js";
 import perfilParticipanteRoutes from "./routes/perfilParticipante.js";
 import equiposRoutes from "./routes/equipos.js";
 import metricaRoutes from "./routes/metricas.js";
+import retosRoutes from "./routes/retos.js";
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use("/participantes", participanteRoutes);
 app.use("/participantes", perfilParticipanteRoutes);
 app.use("/equipos", equiposRoutes);
 app.use("/metricas", metricaRoutes);
+app.use("/retos", retosRoutes);
 app.get("/", (req, res) => res.send("API Running"));
 
 if (process.env.NODE_ENV !== "production") {
