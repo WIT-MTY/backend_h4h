@@ -9,8 +9,8 @@ router.use(protectRoute);
 // GET /retos - todos los retos disponibles
 router.get("/", RetosController.getAllRetos);
 
-// GET /retos/equipo/:equipoId?participanteId=X - retos del equipo + es_lider
-router.get("/equipo/:equipoId", RetosController.getRetosEquipo);
+// GET /retos/mi-equipo?usuarioBaseId=xxx - info del equipo
+router.get("/mi-equipo", RetosController.getMiEquipo);
 
 // PUT /retos/equipo/:equipoId - actualizar opciones (solo líder)
 router.put("/equipo/:equipoId", RetosController.updateRetosEquipo);

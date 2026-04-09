@@ -7,13 +7,21 @@ export const getAllRetos = async () => {
   return rows;
 };
 
-// Obtener info del equipo + retos seleccionados
-export const getRetosEquipo = async (equipoId: number, participanteId: number) => {
+// Verificar si un reto existe
+export const retoExists = async (retoId: number) => {
+  const query = `SELECT id FROM reto WHERE id = $1`;
+  const { rows } = await db.query(query, [retoId]);
+  return rows.length > 0;
+};
+
+// Obtener info del equipo usando solo usuarioBaseId
+export const getMiEquipo = async (usuarioBaseId: string) => {
   const query = `
     SELECT 
       e.id as equipo_id,
       e.lider_id,
-      (e.lider_id = $2) as es_lider,
+      (e.lider_id = $1) as es_lider,
+      (e.opcion1_reto_id IS NOT NULL) as tiene_seleccion,
       e.opcion1_reto_id,
       e.opcion2_reto_id,
       r1.titulo as opcion1_titulo,
@@ -23,9 +31,12 @@ export const getRetosEquipo = async (equipoId: number, participanteId: number) =
     FROM equipo e
     LEFT JOIN reto r1 ON e.opcion1_reto_id = r1.id
     LEFT JOIN reto r2 ON e.opcion2_reto_id = r2.id
-    WHERE e.id = $1
+    WHERE e.lider_id = $1 
+       OR e.participante2_id = $1 
+       OR e.participante3_id = $1 
+       OR e.participante4_id = $1
   `;
-  const { rows } = await db.query(query, [equipoId, participanteId]);
+  const { rows } = await db.query(query, [usuarioBaseId]);
   return rows[0];
 };
 
