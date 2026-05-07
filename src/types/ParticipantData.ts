@@ -18,6 +18,7 @@ export interface ParticipantRegisterData {
   tiene_restriccion_alimentaria: boolean;
   detalle_restriccion_alimentaria: string | null;
   talla_playera_id: number;
+  autoriza_correos_mlh?: boolean
 }
 
 export interface ParticipantData extends ParticipantRegisterData {

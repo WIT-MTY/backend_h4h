@@ -19,7 +19,9 @@ CREATE OR REPLACE FUNCTION public.fn_registro_participantes(
     p_vegana BOOLEAN,
     p_tiene_restriccion_alimentaria BOOLEAN,
     p_desc_restricciones_alimenticias VARCHAR(255),
-    p_talla_id INT
+    p_talla_id INT,
+    p_autoriza_correos_mlh BOOLEAN DEFAULT false 
+    
 )
 RETURNS void
 LANGUAGE plpgsql
@@ -81,7 +83,8 @@ BEGIN
         tiene_restriccion_alimentaria,
         detalle_restriccion_alimentaria,
         talla_playera_id,
-        estatus_participante_id
+        estatus_participante_id,
+        autoriza_correos_mlh 
     )
     VALUES (
         p_usuario_base_id,
@@ -104,7 +107,8 @@ BEGIN
         COALESCE(p_tiene_restriccion_alimentaria, FALSE), -- Default false
         COALESCE(p_desc_restricciones_alimenticias, ''), -- Default empty string
         p_talla_id,
-        v_estatus_pendiente_id -- Pendiente
+        v_estatus_pendiente_id, -- Pendiente
+        COALESCE(p_autoriza_correos_mlh, FALSE)
     );
 
 END;
@@ -118,10 +122,10 @@ GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA dev TO service_role;
 
 -- PARTE B: Blindar la función (SECURITY DEFINER)
 -- Esto hace que la función use los permisos del creador (postgres), saltándose RLS
-ALTER FUNCTION public.fn_registro_participantes(uuid, varchar, varchar, date, varchar, varchar, int, int, varchar, int, int, int, varchar, varchar, varchar, int, boolean, boolean, varchar, int) 
+ALTER FUNCTION public.fn_registro_participantes(uuid, varchar, varchar, date, varchar, varchar, int, int, varchar, int, int, int, varchar, varchar, varchar, int, boolean, boolean, varchar, int, boolean) 
 SECURITY DEFINER;
 
 -- PARTE C: Restringir quién puede llamar a la función
-REVOKE EXECUTE ON FUNCTION public.fn_registro_participantes(uuid, varchar, varchar, date, varchar, varchar, int, int, varchar, int, int, int, varchar, varchar, varchar, int, boolean, boolean, varchar, int) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION public.fn_registro_participantes(uuid, varchar, varchar, date, varchar, varchar, int, int, varchar, int, int, int, varchar, varchar, varchar, int, boolean, boolean, varchar, int) TO service_role;
+REVOKE EXECUTE ON FUNCTION public.fn_registro_participantes(uuid, varchar, varchar, date, varchar, varchar, int, int, varchar, int, int, int, varchar, varchar, varchar, int, boolean, boolean, varchar, int, boolean) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.fn_registro_participantes(uuid, varchar, varchar, date, varchar, varchar, int, int, varchar, int, int, int, varchar, varchar, varchar, int, boolean, boolean, varchar, int, boolean) TO service_role;
 --*
