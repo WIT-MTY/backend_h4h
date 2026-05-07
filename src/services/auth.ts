@@ -112,7 +112,7 @@ export const signUp = async (
       p_github_url: registerData.github_url || null,
       p_cv_url: cvURLData,
       p_permisos_menores_url: permisoURL || null,
-
+      
       // Alimentación y Talla
       p_talla_id: registerData.talla_playera_id || null,
       p_vegana: registerData.vegana ?? false, // <--- Faltaba en el intento fallido
@@ -120,6 +120,7 @@ export const signUp = async (
         registerData.tiene_restriccion_alimentaria ?? false, // <--- Faltaba en el intento fallido
       p_desc_restricciones_alimenticias:
         registerData.detalle_restriccion_alimentaria || null,
+      p_autoriza_correos_mlh: registerData.autoriza_correos_mlh ?? false
     },
   );
 
