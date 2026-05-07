@@ -66,7 +66,6 @@ export const getMyTeam = async (req: Request, res: Response) => {
 
 export const createTeam = async (req: Request, res: Response) => {
   try {
-   
     const userId = req.user?.id; //Obtener ID del usuario
     const equipo_data: CrearEquipoData = {
       ...req.body,
