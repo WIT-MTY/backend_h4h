@@ -8,8 +8,6 @@ router.use(protectRoute);
 
 router.get("/retos/elegidos", EquipoController.getRetosElegidos);
 
-router.get("/:resumen", EquipoController.getEquipos);
-
 router.get("/retos/porEquipo", EquipoController.getRetosElegidosPorEquipo);
 
 router.post("/create", EquipoController.createTeam);
@@ -18,4 +16,5 @@ router.get("/myteam", EquipoController.getMyTeam); // obtener equipo si el usuar
 // router.post("/leave", protectRoute, teamController.leaveTeam);
 // router.post("/delete", protectRoute, teamController.deleteTeam);
 
+router.get("/:resumen", EquipoController.getEquipos);
 export default router;
