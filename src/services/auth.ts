@@ -120,7 +120,7 @@ export const signUp = async (
         registerData.tiene_restriccion_alimentaria ?? false, // <--- Faltaba en el intento fallido
       p_desc_restricciones_alimenticias:
         registerData.detalle_restriccion_alimentaria || null,
-      p_autoriza_correos_mlh: registerData.autoriza_correos_mlh ?? false
+      p_autoriza_correos_mlh: registerData.autoriza_correos_mlh === true || (registerData.autoriza_correos_mlh as any) === 'true',
     },
   );
 
