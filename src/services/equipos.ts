@@ -82,6 +82,7 @@ export const getMyTeam = async (userId: string) => {
         CONCAT(p4.nombre, ' ', p4.apellido) AS participante4,
         e.fecha_creacion,
         e.fecha_validacion,
+        e.codigo,
         est.descripcion AS estatus
     FROM public.equipo e
     LEFT JOIN public.participante l ON e.lider_id = l.usuario_base_id
