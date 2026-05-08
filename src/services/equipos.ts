@@ -139,10 +139,7 @@ export const createTeam = async (equipo_data: CrearEquipoData) => {
   return nuevoEquipo;
 };
 
-export const joinTeam = async (
-  equipo_codigo_entrada: string,
-  userId: string,
-) => {
+export const joinTeam = async (equipo_codigo_entrada: string,userId: string,) => {
   // 1. Verificar si el equipo existe
   const checkQuery = `SELECT id, participante2_id, participante3_id, participante4_id FROM equipo WHERE codigo = $1`;
   const { rows: equipoRows } = await db.query(checkQuery, [
@@ -162,6 +159,38 @@ export const joinTeam = async (
     equipo.participante4_id
   ) {
     throw new Error("TEAM_FULL"); // Todos los lugares están ocupados
+  }
+
+  // 2.5 Verificar restricción de género solo cuando va a entrar el cuarto participante
+  if (equipo.participante2_id && equipo.participante3_id && !equipo.participante4_id) {
+    const genderQuery = `
+      SELECT 
+        g1.descripcion AS genero_lider,
+        g2.descripcion AS genero_p2,
+        g3.descripcion AS genero_p3,
+        gn.descripcion AS genero_nuevo
+      FROM equipo e
+      LEFT JOIN participante l ON e.lider_id = l.usuario_base_id
+      LEFT JOIN genero g1 ON l.genero_id = g1.id
+      LEFT JOIN participante p2 ON e.participante2_id = p2.usuario_base_id
+      LEFT JOIN genero g2 ON p2.genero_id = g2.id
+      LEFT JOIN participante p3 ON e.participante3_id = p3.usuario_base_id
+      LEFT JOIN genero g3 ON p3.genero_id = g3.id
+      LEFT JOIN participante pn ON pn.usuario_base_id = $1
+      LEFT JOIN genero gn ON pn.genero_id = gn.id
+      WHERE e.codigo = $2;
+    `;
+
+    const { rows: genderRows } = await db.query(genderQuery, [userId, equipo_codigo_entrada]);
+    const generos = genderRows[0];
+
+    const generosActuales = [generos.genero_lider, generos.genero_p2, generos.genero_p3];
+    const todosHombres = generosActuales.every(g => g === "Masculino");
+    const nuevoEsHombre = generos.genero_nuevo === "Masculino";
+
+    if (todosHombres && nuevoEsHombre) {
+      throw new Error("GENDER_RESTRICTION");
+    }
   }
 
   // 3. Ejecutar la actualización (misma lógica de CASE anterior)

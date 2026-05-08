@@ -136,6 +136,12 @@ export const joinTeam = async (req: Request, res: Response) => {
         .json({ error: "El equipo ya está lleno (máximo 4 integrantes)" });
     }
 
+    if (error.message === "GENDER_RESTRICTION") {
+      return res
+        .status(400)
+        .json({ error: "El equipo debe tener al menos una integrante mujer" });
+    }
+
     console.error(error);
     return res.status(500).json({ error: "Ocurrió un error inesperado" });
   }
