@@ -7,7 +7,7 @@ import { db } from "../config/db.js";
 export const signUp = async (
   credentials: UserCredentials,
   registerData: ParticipantRegisterData,
-  cvFile: File,
+  //cvFile: File,
   permisoFile: File | null,
 ) => {
   //* 0. Validar que se recibieron todos los datos necesarios
@@ -32,7 +32,6 @@ export const signUp = async (
     registerData.carrera_id == null ||
     registerData.genero_id == null ||
     registerData.talla_playera_id == null ||
-    !cvFile ||
     (registerData.pais_id == p_mexico && registerData.estado_id == null)
   ) {
     throw new Error("Faltan datos obligatorios para el registro.");
@@ -75,14 +74,14 @@ export const signUp = async (
     permisoURL = permisoURLData;
   }
 
-  const { data: cvURLData, error: cvError } = await uploadAndGetURL(
+  {/*const { data: cvURLData, error: cvError } = await uploadAndGetURL(
     cvFile,
     "cvs",
-  );
-  console.log("CVURLData:", cvURLData, "CVError:", cvError);
+  ); */}
+  {/*console.log("CVURLData:", cvURLData, "CVError:", cvError);
   if (cvError) {
     throw new Error("Error al subir el currículum.");
-  }
+  }*/}
 
   //* 3. Llamar al SP en Postgres vía RPC
   // IMPORTANTE que las llaves coincidan exactamente con los nombres de los parámetros del FN, el orden no importa pero los nombres sí.
@@ -110,7 +109,7 @@ export const signUp = async (
       // Social / Archivos
       p_linkedin_url: registerData.linkedin_url || null, // <--- Faltaba en el intento fallido
       p_github_url: registerData.github_url || null,
-      p_cv_url: cvURLData,
+      p_cv_url: null,
       p_permisos_menores_url: permisoURL || null,
       
       // Alimentación y Talla
@@ -133,13 +132,13 @@ export const signUp = async (
     console.log(`Usuario ${authData.user.id} eliminado por error en RPC.`);
 
     //* eliminar CV subido si hay error en RPC para evitar archivos huérfanos
-    if (cvURLData) {
+    {/*if (cvURLData) {
       const cvFileToDelete = cvURLData.split("/").pop();
       if (cvFileToDelete) {
         await supabase.storage.from("docs").remove([`cvs/${cvFileToDelete}`]);
         console.log(`Archivo CV ${cvFileToDelete} eliminado por error en RPC.`);
       }
-    }
+    }*/}
 
     //* eliminar permiso menor de edad subido si hay error en RPC para evitar archivos huérfanos
     if (permisoURL) {

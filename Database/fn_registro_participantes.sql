@@ -41,9 +41,9 @@ BEGIN
     END IF;
 
     -- 3. Validación de cv_url
-    IF p_cv_url IS NULL OR TRIM(p_cv_url) = '' THEN
-        RAISE EXCEPTION 'Se requiere la URL del CV.';
-    END IF;
+    --IF p_cv_url IS NULL OR TRIM(p_cv_url) = '' THEN
+        --RAISE EXCEPTION 'Se requiere la URL del CV.';
+    --END IF;
 
     -- 4. Validación de pais_id
     IF p_pais_id IS NULL THEN
