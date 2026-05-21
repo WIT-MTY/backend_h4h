@@ -34,17 +34,17 @@ export const signUp = async (req: Request, res: Response) => {
 
   try {
     // 3. Extracción de archivos
-    const cvFile = mReq.files?.cv_file ? mReq.files.cv_file[0] : null;
+    //const cvFile = mReq.files?.cv_file ? mReq.files.cv_file[0] : null;
     const permisoFile = mReq.files?.permiso_file
       ? mReq.files.permiso_file[0]
       : null;
 
-    if (!cvFile) {
+    {/*if (!cvFile) {
       return res.status(400).json({
         success: false,
         error: "El archivo del CV es obligatorio.",
       });
-    }
+    } */}
 
     // 4. Extracción de credenciales y datos
     const { email, password, ...restOfData } = req.body;
@@ -59,7 +59,7 @@ export const signUp = async (req: Request, res: Response) => {
     const result = await AuthService.signUp(
       credentials,
       registerData,
-      cvFile as any,
+  
       permisoFile as any,
     );
 
