@@ -18,43 +18,44 @@ export const getAllRetos = async (req: Request, res: Response) => {
   }
 };
 
-// export const getMiEquipo = async (req: Request, res: Response) => {
-//   try {
-//     const usuarioBaseId = req.query.usuarioBaseId as string;
+ export const getMiEquipo = async (req: Request, res: Response) => {
+   try {
+     const usuarioBaseId = req.query.usuarioBaseId as string;
 
-//     if (!usuarioBaseId) {
-//       return res.status(400).json({ error: "usuarioBaseId es requerido" });
-//     }
+     if (!usuarioBaseId) {
+       return res.status(400).json({ error: "usuarioBaseId es requerido" });
+     }
 
-//     const equipoData = await RetosService.getMiEquipo(usuarioBaseId);
+     const equipoData = await RetosService.getMiEquipo(usuarioBaseId);
 
-//     // Si no tiene equipo
-//     if (!equipoData || !equipoData.equipo_id) {
-//       return res.status(200).json({ tiene_equipo: false });
-//     }
+     // Si no tiene equipo
+     if (!equipoData || !equipoData.equipo_id) {
+       return res.status(200).json({ tiene_equipo: false });
+     }
 
-//     // Obtener todos los retos disponibles
-//     const retos = await RetosService.getAllRetos();
+     // Obtener todos los retos disponibles
+     const retos = await RetosService.getAllRetos();
 
-//     res.status(200).json({
-//       tiene_equipo: true,
-//       equipo_id: equipoData.equipo_id,
-//       es_lider: equipoData.es_lider,
-//       tiene_seleccion: equipoData.tiene_seleccion,
-//       retos_disponibles: retos.length > 0,
-//       retos,
-//       opcion1_reto_id: equipoData.opcion1_reto_id,
-//       opcion1_titulo: equipoData.opcion1_titulo,
-//       opcion1_descripcion: equipoData.opcion1_descripcion,
-//       opcion2_reto_id: equipoData.opcion2_reto_id,
-//       opcion2_titulo: equipoData.opcion2_titulo,
-//       opcion2_descripcion: equipoData.opcion2_descripcion,
-//     });
-//   } catch (error) {
-//     console.error("Error getting mi equipo:", error);
-//     res.status(500).json({ error: "Error al obtener info del equipo" });
-//   }
-// };
+     res.status(200).json({
+       tiene_equipo: true,
+       equipo_id: equipoData.equipo_id,
+       es_lider: equipoData.es_lider,
+       tiene_seleccion: equipoData.tiene_seleccion,
+       retos_disponibles: retos.length > 0,
+       retos,
+       opcion1_reto_id: equipoData.opcion1_reto_id,
+       opcion1_titulo: equipoData.opcion1_titulo,
+       opcion1_descripcion: equipoData.opcion1_descripcion,
+       opcion2_reto_id: equipoData.opcion2_reto_id,
+       opcion2_titulo: equipoData.opcion2_titulo,
+       opcion2_descripcion: equipoData.opcion2_descripcion,
+       p_acepto_clausula: equipoData.p_acepto_clausula,
+     });
+   } catch (error) {
+     console.error("Error getting mi equipo:", error);
+     res.status(500).json({ error: "Error al obtener info del equipo" });
+   }
+ };
 
 export const updateRetosEquipo = async (req: Request, res: Response) => {
   try {

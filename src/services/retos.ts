@@ -27,10 +27,12 @@ export const getMiEquipo = async (usuarioBaseId: string) => {
       r1.titulo as opcion1_titulo,
       r1.descripcion as opcion1_descripcion,
       r2.titulo as opcion2_titulo,
-      r2.descripcion as opcion2_descripcion
+      r2.descripcion as opcion2_descripcion,
+      p.acepto_clausula_arca as p_acepto_clausula
     FROM equipo e
     LEFT JOIN reto r1 ON e.opcion1_reto_id = r1.id
     LEFT JOIN reto r2 ON e.opcion2_reto_id = r2.id
+    JOIN participante p ON p.usuario_base_id = $1 
     WHERE e.lider_id = $1 
        OR e.participante2_id = $1 
        OR e.participante3_id = $1 
