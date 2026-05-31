@@ -6,6 +6,9 @@ const router = Router();
 
 router.use(protectRoute);
 
+//PUT /retos/aceptar-clausula - líder acepta cláusula ARCA
+router.put("/aceptarclausula", RetosController.aceptarClausulaArca);
+
 // GET /retos - todos los retos disponibles
 router.get("/", RetosController.getAllRetos);
 

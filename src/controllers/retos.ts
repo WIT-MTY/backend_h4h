@@ -113,3 +113,56 @@ export const updateRetosEquipo = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error al actualizar retos" });
   }
 };
+
+
+export const aceptarClausulaArca = async (req: Request, res: Response) => {
+  try {
+    const usuarioBaseId = req.user?.id;
+
+    if (!usuarioBaseId) {
+      return res.status(401).json({ error: "Usuario no autenticado" });
+    }
+
+    const { acepto_clausula_arca, nombre_acepto_clausula_arca } = req.body;
+
+    // Verificar que ambos parámetros estén presentes
+    if (acepto_clausula_arca === undefined || !nombre_acepto_clausula_arca) {
+      return res.status(400).json({ 
+        error: "Se requiere aceptar la cláusula e ingresar tu nombre completo" 
+      });
+    }
+
+    // Verificar que acepto_clausula_arca sea true
+    if (acepto_clausula_arca !== true) {
+      return res.status(400).json({ 
+        error: "Debes aceptar los términos y condiciones para continuar" 
+      });
+    }
+
+    // Verificar si ya aceptó anteriormente
+    const yaAcepto = await RetosService.getClausulaArca(usuarioBaseId);
+
+    if (yaAcepto?.acepto_clausula_arca === true) {
+      return res.status(200).json({ 
+        message: "Ya habías aceptado los términos y condiciones anteriormente",
+        ya_acepto: true
+      });
+    }
+
+    // Guardar la aceptación
+    const resultado = await RetosService.aceptarClausulaArca(
+      usuarioBaseId,
+      nombre_acepto_clausula_arca
+    );
+
+    return res.status(200).json({
+      message: "Términos y condiciones aceptados correctamente",
+      ya_acepto: false,
+      data: resultado
+    });
+
+  } catch (error) {
+    console.error("Error al aceptar cláusula Arca:", error);
+    res.status(500).json({ error: "Error al procesar la aceptación" });
+  }
+};

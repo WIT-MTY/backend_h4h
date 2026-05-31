@@ -61,3 +61,32 @@ export const updateRetosEquipo = async (
   ]);
   return rows[0];
 };
+
+
+// Verificar si ya aceptó
+export const getClausulaArca = async (usuarioBaseId: string) => {
+  const query = `
+    SELECT acepto_clausula_arca 
+    FROM public.participante
+    WHERE usuario_base_id = $1
+  `;
+  const { rows } = await db.query(query, [usuarioBaseId]);
+  return rows[0];
+};
+
+// Guardar la aceptación
+export const aceptarClausulaArca = async (
+  usuarioBaseId: string,
+  nombreAceptoClausula: string
+) => {
+  const query = `
+    UPDATE public.participante
+    SET 
+      acepto_clausula_arca = TRUE,
+      nombre_acepto_clausula_arca = $2
+    WHERE usuario_base_id = $1
+    RETURNING *
+  `;
+  const { rows } = await db.query(query, [usuarioBaseId, nombreAceptoClausula]);
+  return rows[0];
+};
