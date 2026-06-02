@@ -6,11 +6,14 @@ const router = Router();
 
 router.use(protectRoute);
 
+//PUT /retos/aceptar-clausula - líder acepta cláusula ARCA
+router.put("/aceptarclausula", RetosController.aceptarClausulaArca);
+
 // GET /retos - todos los retos disponibles
 router.get("/", RetosController.getAllRetos);
 
 // GET /retos/mi-equipo?usuarioBaseId=xxx - info del equipo
-// router.get("/mi-equipo", RetosController.getMiEquipo);
+router.get("/mi-equipo", RetosController.getMiEquipo);
 
 // PUT /retos/equipo/:equipoId - actualizar opciones (solo líder)
 router.put("/elegir", RetosController.updateRetosEquipo);

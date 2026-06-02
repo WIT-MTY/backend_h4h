@@ -27,10 +27,12 @@ export const getMiEquipo = async (usuarioBaseId: string) => {
       r1.titulo as opcion1_titulo,
       r1.descripcion as opcion1_descripcion,
       r2.titulo as opcion2_titulo,
-      r2.descripcion as opcion2_descripcion
+      r2.descripcion as opcion2_descripcion,
+      p.acepto_clausula_arca as p_acepto_clausula
     FROM equipo e
     LEFT JOIN reto r1 ON e.opcion1_reto_id = r1.id
     LEFT JOIN reto r2 ON e.opcion2_reto_id = r2.id
+    JOIN participante p ON p.usuario_base_id = $1 
     WHERE e.lider_id = $1 
        OR e.participante2_id = $1 
        OR e.participante3_id = $1 
@@ -57,5 +59,34 @@ export const updateRetosEquipo = async (
     opcion1RetoId,
     opcion2RetoId,
   ]);
+  return rows[0];
+};
+
+
+// Verificar si ya aceptó
+export const getClausulaArca = async (usuarioBaseId: string) => {
+  const query = `
+    SELECT acepto_clausula_arca 
+    FROM public.participante
+    WHERE usuario_base_id = $1
+  `;
+  const { rows } = await db.query(query, [usuarioBaseId]);
+  return rows[0];
+};
+
+// Guardar la aceptación
+export const aceptarClausulaArca = async (
+  usuarioBaseId: string,
+  nombreAceptoClausula: string
+) => {
+  const query = `
+    UPDATE public.participante
+    SET 
+      acepto_clausula_arca = TRUE,
+      nombre_acepto_clausula_arca = $2
+    WHERE usuario_base_id = $1
+    RETURNING *
+  `;
+  const { rows } = await db.query(query, [usuarioBaseId, nombreAceptoClausula]);
   return rows[0];
 };
