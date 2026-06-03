@@ -48,3 +48,18 @@ export const createCheckIn = async (userId: string) => {
   const { rows } = await db.query(query, [userId]);
   return rows[0];
 };
+
+export const getCheckInCode = async (userId: string) => {
+  const query = `
+    SELECT 
+      CASE 
+        WHEN p.estatus_participante_id = 1 THEN p.usuario_base_id 
+        ELSE NULL
+      END AS checkin_code
+    FROM participante p
+    WHERE p.usuario_base_id = $1;
+  `;
+
+  const { rows } = await db.query(query, [userId]);
+  return rows[0]?.checkin_code || null;
+};

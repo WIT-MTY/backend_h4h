@@ -41,3 +41,19 @@ export const createCheckIn = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error al crear check-in" });
   }
 };
+
+export const getCheckInCode = async (req: Request, res: Response) => {
+  const userId = req.user?.id as string | undefined;
+
+  if (!userId) {
+    res.status(400).json({ error: "userId es requerido" });
+    return;
+  }
+
+  try {
+    const checkinCode = await CheckinService.getCheckInCode(userId);
+    res.json(checkinCode);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener código de check-in" });
+  }
+};
