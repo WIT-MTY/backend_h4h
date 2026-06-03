@@ -7,7 +7,7 @@ const router = Router();
 
 router.use(protectRoute);
 
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ storage: multer.memoryStorage() });
 
 // router.patch("/participante/:id/estatus", participanteController.updateEstatus);
 router.patch("/:id/estatus", participanteController.updateEstatus); //TODO: later change to updateEstatus route

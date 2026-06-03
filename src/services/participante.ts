@@ -18,7 +18,7 @@ export const updateEstatus = async (id: string, estatus: number) => {
   return rows[0];
 };
 
-export const uploadCV = async (cvFile: File) => {
+export const uploadCV = async (userId: string, cvFile: File) => {
   const { data: cvURLData, error: cvError } = await uploadAndGetURL(
     cvFile,
     "cvs",
@@ -27,5 +27,30 @@ export const uploadCV = async (cvFile: File) => {
   if (cvError) {
     throw new Error("Error al subir el currículum.");
   }
-  return cvURLData;
+
+  const querty = `
+    UPDATE public.participante
+    SET cv_url = $1
+    WHERE usuario_base_id = $2
+    RETURNING 'Archivo CV subido y URL guardada en la base de datos' AS message;
+  `;
+
+  const { rows: rpcData, error: rpcError } = await db.query(querty, [
+    cvURLData,
+    userId,
+  ]);
+
+  if (rpcError) {
+    //* eliminar CV subido si hay error en RPC para evitar archivos huérfanos
+    if (cvURLData) {
+      const cvFileToDelete = cvURLData.split("/").pop();
+      if (cvFileToDelete) {
+        await supabase.storage.from("docs").remove([`cvs/${cvFileToDelete}`]);
+        console.log(`Archivo CV ${cvFileToDelete} eliminado por error en RPC.`);
+      }
+    }
+    throw new Error(rpcError.message);
+  }
+
+  return rpcData;
 };

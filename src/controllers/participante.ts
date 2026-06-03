@@ -51,6 +51,7 @@ export const uploadCV = async (
   res: Response,
 ): Promise<Response> => {
   try {
+    const userId = req.user?.id;
     const cvFile = req.file;
 
     if (!cvFile) {
@@ -59,7 +60,7 @@ export const uploadCV = async (
       });
     }
 
-    const cvURL = await participanteService.uploadCV(cvFile);
+    const cvURL = await participanteService.uploadCV(userId, cvFile);
 
     return res.status(200).json({
       message: "Currículum subido correctamente",
