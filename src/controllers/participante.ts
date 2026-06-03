@@ -54,13 +54,21 @@ export const uploadCV = async (
     const userId = req.user?.id;
     const cvFile = req.file;
 
+    if (!userId) {
+      return res.status(401).json({
+        error: "Usuario no autenticado",
+      });
+    }
+
     if (!cvFile) {
       return res.status(400).json({
         error: "El archivo de currículum es requerido",
       });
     }
 
-    const cvURL = await participanteService.uploadCV(userId, cvFile);
+    // Multer's file type differs from the expected File type in the service.
+    // Cast to the expected type to satisfy TypeScript. Ensure service can handle this shape at runtime.
+    const cvURL = await participanteService.uploadCV(userId, cvFile as unknown as File);
 
     return res.status(200).json({
       message: "Currículum subido correctamente",

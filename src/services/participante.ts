@@ -35,22 +35,10 @@ export const uploadCV = async (userId: string, cvFile: File) => {
     RETURNING 'Archivo CV subido y URL guardada en la base de datos' AS message;
   `;
 
-  const { rows: rpcData, error: rpcError } = await db.query(querty, [
+  const { rows: rpcData } = await db.query(querty, [
     cvURLData,
     userId,
   ]);
-
-  if (rpcError) {
-    //* eliminar CV subido si hay error en RPC para evitar archivos huérfanos
-    if (cvURLData) {
-      const cvFileToDelete = cvURLData.split("/").pop();
-      if (cvFileToDelete) {
-        await supabase.storage.from("docs").remove([`cvs/${cvFileToDelete}`]);
-        console.log(`Archivo CV ${cvFileToDelete} eliminado por error en RPC.`);
-      }
-    }
-    throw new Error(rpcError.message);
-  }
 
   return rpcData;
 };
