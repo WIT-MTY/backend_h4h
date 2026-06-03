@@ -1,4 +1,6 @@
+import { supabase } from "src/config/supabase.js";
 import { db } from "../config/db.js";
+import { uploadAndGetURL } from "./storage.js";
 
 export const updateEstatus = async (id: string, estatus: number) => {
   const query = `
@@ -14,4 +16,16 @@ export const updateEstatus = async (id: string, estatus: number) => {
 
   const { rows } = await db.query(query, values);
   return rows[0];
+};
+
+export const uploadCV = async (cvFile: File) => {
+  const { data: cvURLData, error: cvError } = await uploadAndGetURL(
+    cvFile,
+    "cvs",
+  );
+  console.log("CVURLData:", cvURLData, "CVError:", cvError);
+  if (cvError) {
+    throw new Error("Error al subir el currículum.");
+  }
+  return cvURLData;
 };
