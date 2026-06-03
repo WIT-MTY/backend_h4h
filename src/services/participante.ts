@@ -1,4 +1,4 @@
-import { supabase } from "src/config/supabase.js";
+import { supabase } from "../config/supabase.js";
 import { db } from "../config/db.js";
 import { uploadAndGetURL } from "./storage.js";
 

@@ -1,4 +1,4 @@
-import type { ParticipantData } from "src/types/ParticipantData.js";
+import type { ParticipantData } from "../types/ParticipantData.js";
 import { db } from "../config/db.js";
 //TODO: Implementar types para los perfiles de participante
 

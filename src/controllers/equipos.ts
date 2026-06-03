@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import * as EquipoService from "../services/equipos.js";
-import type { EquipoData, CrearEquipoData } from "src/types/EquipoData.js";
+import type { EquipoData, CrearEquipoData } from "../types/EquipoData.js";
 
 // export const getEquipos = async (req: Request, res: Response) => {
 //   try {
