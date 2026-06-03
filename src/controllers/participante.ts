@@ -24,7 +24,7 @@ export const updateEstatus = async (req: Request, res: Response) => {
 
     const result = await participanteService.updateEstatus(
       String(id),
-      Number(estatus)
+      Number(estatus),
     );
 
     if (!result) {
@@ -42,6 +42,46 @@ export const updateEstatus = async (req: Request, res: Response) => {
 
     return res.status(500).json({
       error: "Error al actualizar el estatus",
+    });
+  }
+};
+
+export const uploadCV = async (
+  req: Request,
+  res: Response,
+): Promise<Response> => {
+  try {
+    const userId = req.user?.id;
+    const cvFile = req.file;
+
+    if (!userId) {
+      return res.status(401).json({
+        error: "Usuario no autenticado",
+      });
+    }
+
+    if (!cvFile) {
+      return res.status(400).json({
+        error: "El archivo de currículum es requerido",
+      });
+    }
+
+    // Multer's file type differs from the expected File type in the service.
+    // Cast to the expected type to satisfy TypeScript. Ensure service can handle this shape at runtime.
+    const cvURL = await participanteService.uploadCV(userId, cvFile as unknown as File);
+
+    return res.status(200).json({
+      message: "Currículum subido correctamente",
+
+      data: {
+        cvURL,
+      },
+    });
+  } catch (error) {
+    console.error("Error al subir CV:", error);
+
+    return res.status(500).json({
+      error: "Error al subir el currículum",
     });
   }
 };
