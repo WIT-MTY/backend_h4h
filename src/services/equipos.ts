@@ -1,5 +1,5 @@
 import { db } from "../config/db.js";
-import type { EquipoData, CrearEquipoData } from "src/types/EquipoData.js";
+import type { EquipoData, CrearEquipoData } from "../types/EquipoData.js";
 import { generarCodigoEntrada } from "../utils/codigoEntrada.js";
 
 export const getEquipos = async () => {
