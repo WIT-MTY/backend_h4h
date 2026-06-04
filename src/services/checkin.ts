@@ -49,6 +49,7 @@ export const createCheckIn = async (userId: string) => {
   return rows[0];
 };
 
+// Endpoint para obtener el código de check-in (que es el userId) solo si el participante ya hizo check-in, de lo contrario regresa null
 export const getCheckInCode = async (userId: string) => {
   const query = `
     SELECT 
@@ -64,6 +65,7 @@ export const getCheckInCode = async (userId: string) => {
   return rows[0]?.checkin_code || null;
 };
 
+// Endpoint para obtener el número total de participantes que hicieron check-in
 export const getTotalParticipantesCheckIn = async () => {
   const query = `
     SELECT COUNT(*) AS total_participantes_checkin
@@ -75,6 +77,7 @@ export const getTotalParticipantesCheckIn = async () => {
   return rows;
 };
 
+// Endpoint para obtener el número total de equipos que hicieron check-in (al menos un miembro hizo check-in), el número de equipos completos (todos los miembros hicieron check-in) y el número de equipos incompletos (al menos un miembro hizo check-in pero no todos)
 export const getTotalEquiposCheckIn = async () => {
   const query = `
     SELECT
@@ -112,4 +115,14 @@ export const getTotalEquiposCheckIn = async () => {
 
   const { rows } = await db.query(query);
   return rows;
+};
+
+// Endpoint para obtener el estatus de check-in de un participante específico (registro_d1)
+export const getMyCheckInStatus = async (userId: string) => {
+  const query = `
+    SELECT p.registro_d1 FROM participante p WHERE p.usuario_base_id = $1;
+    `;
+
+  const { rows } = await db.query(query, [userId]);
+  return rows[0]?.registro_d1;
 };

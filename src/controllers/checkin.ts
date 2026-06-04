@@ -83,6 +83,7 @@ export const getTotalEquiposCheckIn = async (req: Request, res: Response) => {
   }
 };
 
+// Endpoint para obtener el estado de check-in del participante autenticado (true o false)
 export const getMyCheckInStatus = async (req: Request, res: Response) => {
   const userId = req.user?.id as string | undefined;
 
@@ -93,7 +94,11 @@ export const getMyCheckInStatus = async (req: Request, res: Response) => {
 
   try {
     const checkinStatus = await CheckinService.getMyCheckInStatus(userId);
-    res.json(checkinStatus);
+    if (checkinStatus !== true) {
+      res.json({ checkinStatus: false });
+    } else {
+      res.json({ checkinStatus: true });
+    }
   } catch (error) {
     res.status(500).json({ error: "Error al obtener estado de check-in" });
   }

@@ -15,5 +15,6 @@ router.get(
   checkinController.getTotalParticipantesCheckIn,
 );
 router.get("/total-equipos", checkinController.getTotalEquiposCheckIn);
+router.get("/mi-estado", checkinController.getMyCheckInStatus);
 
 export default router;
