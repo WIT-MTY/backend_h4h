@@ -63,3 +63,53 @@ export const getCheckInCode = async (userId: string) => {
   const { rows } = await db.query(query, [userId]);
   return rows[0]?.checkin_code || null;
 };
+
+export const getTotalParticipantesCheckIn = async () => {
+  const query = `
+    SELECT COUNT(*) AS total_participantes_checkin
+    FROM participante
+    WHERE registro_d1 = TRUE;
+  `;
+
+  const { rows } = await db.query(query);
+  return rows;
+};
+
+export const getTotalEquiposCheckIn = async () => {
+  const query = `
+    SELECT
+        COUNT(DISTINCT CASE WHEN p.registro_d1 = TRUE THEN e.id END) AS total_equipos_checkin,
+        COUNT(DISTINCT CASE WHEN t.equipo_completo = 1 THEN e.id END) AS equipos_completos,
+        COUNT(DISTINCT CASE WHEN p.registro_d1 = TRUE THEN e.id END)
+        - COUNT(DISTINCT CASE WHEN t.equipo_completo = 1 THEN e.id END) AS equipos_incompletos
+    FROM (
+        SELECT
+            e.id,
+            CASE
+                WHEN COUNT(*) = COUNT(CASE WHEN p.registro_d1 = TRUE THEN 1 END)
+                THEN 1
+                ELSE 0
+            END AS equipo_completo
+        FROM equipo e
+        JOIN participante p
+            ON p.usuario_base_id IN (
+                e.lider_id,
+                e.participante2_id,
+                e.participante3_id,
+                e.participante4_id
+            )
+        GROUP BY e.id
+    ) t
+    JOIN equipo e ON e.id = t.id
+    JOIN participante p
+        ON p.usuario_base_id IN (
+            e.lider_id,
+            e.participante2_id,
+            e.participante3_id,
+            e.participante4_id
+        );
+  `;
+
+  const { rows } = await db.query(query);
+  return rows;
+};
