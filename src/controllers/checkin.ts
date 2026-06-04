@@ -41,3 +41,65 @@ export const createCheckIn = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error al crear check-in" });
   }
 };
+
+export const getCheckInCode = async (req: Request, res: Response) => {
+  const userId = req.user?.id as string | undefined;
+
+  if (!userId) {
+    res.status(400).json({ error: "userId es requerido" });
+    return;
+  }
+
+  try {
+    const checkinCode = await CheckinService.getCheckInCode(userId);
+    res.json(checkinCode);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener código de check-in" });
+  }
+};
+
+export const getTotalParticipantesCheckIn = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const total = await CheckinService.getTotalParticipantesCheckIn();
+    res.json(total);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error al obtener total de participantes con check-in" });
+  }
+};
+
+export const getTotalEquiposCheckIn = async (req: Request, res: Response) => {
+  try {
+    const total = await CheckinService.getTotalEquiposCheckIn();
+    res.json(total);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Error al obtener total de equipos con check-in" });
+  }
+};
+
+// Endpoint para obtener el estado de check-in del participante autenticado (true o false)
+export const getMyCheckInStatus = async (req: Request, res: Response) => {
+  const userId = req.user?.id as string | undefined;
+
+  if (!userId) {
+    res.status(400).json({ error: "userId es requerido" });
+    return;
+  }
+
+  try {
+    const checkinStatus = await CheckinService.getMyCheckInStatus(userId);
+    if (checkinStatus !== true) {
+      res.json({ checkinStatus: false });
+    } else {
+      res.json({ checkinStatus: true });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener estado de check-in" });
+  }
+};
