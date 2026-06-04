@@ -13,22 +13,36 @@ export const getParticipantesCheckIns = async () => {
 // Endpoint para obtener los equipos que ya tienen check-in junto con el número de personas que hicieron check-in por equipo
 export const getEquiposCheckIn = async () => {
   const query = `
-        SELECT 
-            e.nombre,
-            COUNT(*) AS personas_registradas
-        FROM equipo e
-        JOIN participante p
-            ON p.usuario_base_id  IN (
-                e.lider_id,
-                e.participante2_id,
-                e.participante3_id,
-                e.participante4_id
-            )
-        WHERE p.registro_d1 = TRUE
-        GROUP BY e.id, e.nombre
-        HAVING COUNT(*) > 0
-        ORDER BY personas_registradas DESC, e.nombre;
-    `;
+  SELECT 
+      e.nombre,
+      COUNT(CASE WHEN p.registro_d1 = TRUE THEN 1 END) AS personas_registradas,
+      CASE
+          WHEN COUNT(*) = COUNT(CASE WHEN p.registro_d1 = TRUE THEN 1 END)
+          THEN 'Completo'
+          ELSE 'Incompleto'
+      END AS equipo_completo_checkin,
+      r1.titulo AS reto_1,
+      r2.titulo AS reto_2
+  FROM equipo e
+  JOIN participante p
+      ON p.usuario_base_id IN (
+          e.lider_id,
+          e.participante2_id,
+          e.participante3_id,
+          e.participante4_id
+      )
+  LEFT JOIN reto r1
+      ON r1.id = e.opcion1_reto_id
+  LEFT JOIN reto r2
+      ON r2.id = e.opcion2_reto_id
+  GROUP BY
+      e.id,
+      e.nombre,
+      r1.titulo,
+      r2.titulo
+  HAVING COUNT(CASE WHEN p.registro_d1 = TRUE THEN 1 END) > 0
+  ORDER BY personas_registradas DESC, e.nombre;
+  `;
 
   const { rows } = await db.query(query);
   return rows;
