@@ -25,6 +25,6 @@ router.put("/asignar-reto", RetosController.defineRetoDefinitivo);
 router.put("/actualizar-reto", RetosController.updateRetoDefinitivo);
 
 // GET /retos/equipos-por-reto - obtener cantidad de equipos por reto
-router.get("/equipos-por-reto", RetosController.getEquiposPorReto);
+router.get("/equipos-por-reto", RetosController.getEquiposPorRetoDefinitivo);
 
 export default router;

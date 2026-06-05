@@ -159,7 +159,10 @@ export const createTeam = async (equipo_data: CrearEquipoData) => {
   return nuevoEquipo;
 };
 
-export const joinTeam = async (equipo_codigo_entrada: string,userId: string,) => {
+export const joinTeam = async (
+  equipo_codigo_entrada: string,
+  userId: string,
+) => {
   // 1. Verificar si el equipo existe
   const checkQuery = `SELECT id, participante2_id, participante3_id, participante4_id FROM equipo WHERE codigo = $1`;
   const { rows: equipoRows } = await db.query(checkQuery, [
@@ -182,7 +185,11 @@ export const joinTeam = async (equipo_codigo_entrada: string,userId: string,) =>
   }
 
   // 2.5 Verificar restricción de género solo cuando va a entrar el cuarto participante
-  if (equipo.participante2_id && equipo.participante3_id && !equipo.participante4_id) {
+  if (
+    equipo.participante2_id &&
+    equipo.participante3_id &&
+    !equipo.participante4_id
+  ) {
     const genderQuery = `
       SELECT 
         g1.descripcion AS genero_lider,
@@ -201,11 +208,18 @@ export const joinTeam = async (equipo_codigo_entrada: string,userId: string,) =>
       WHERE e.codigo = $2;
     `;
 
-    const { rows: genderRows } = await db.query(genderQuery, [userId, equipo_codigo_entrada]);
+    const { rows: genderRows } = await db.query(genderQuery, [
+      userId,
+      equipo_codigo_entrada,
+    ]);
     const generos = genderRows[0];
 
-    const generosActuales = [generos.genero_lider, generos.genero_p2, generos.genero_p3];
-    const todosHombres = generosActuales.every(g => g === "Masculino");
+    const generosActuales = [
+      generos.genero_lider,
+      generos.genero_p2,
+      generos.genero_p3,
+    ];
+    const todosHombres = generosActuales.every((g) => g === "Masculino");
     const nuevoEsHombre = generos.genero_nuevo === "Masculino";
 
     if (todosHombres && nuevoEsHombre) {
@@ -276,4 +290,8 @@ export const removeIntegranteFromEquipo = async (equipo_id: number, usuario_base
     `UPDATE equipo SET ${slot} = NULL WHERE id = $1`,
     [equipo_id]
   );
+};
+export const deleteTeam = async (equipo_id: number) => {
+  const query = `DELETE FROM equipo WHERE id = $1`;
+  await db.query(query, [equipo_id]);
 };

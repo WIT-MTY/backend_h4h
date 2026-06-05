@@ -16,7 +16,7 @@ router.post("/join/:equipo_codigo_entrada", EquipoController.joinTeam);
 router.get("/myteam", EquipoController.getMyTeam); // obtener equipo si el usuario es líder o participante o si no pertenece a ningún equipo
 router.delete("/equipos/:equipo_id/integrantes/:usuario_base_id", protectRoute, removeIntegranteFromEquipo);
 // router.post("/leave", protectRoute, teamController.leaveTeam);
-// router.post("/delete", protectRoute, teamController.deleteTeam);
+router.delete("/delete/:equipo_id", protectRoute, EquipoController.deleteTeam);
 
 router.get("/:resumen", EquipoController.getEquipos);
 export default router;
