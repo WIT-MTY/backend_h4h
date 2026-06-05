@@ -177,22 +177,22 @@ export const getEquiposPorReto = async (req: Request, res: Response) => {
 
 export const defineRetoDefinitivo = async (req: Request, res: Response) => {
   try {
-    const { equipo_id, reto_definitivo_id } = req.body;
+    const { equipo_id, reto_id } = req.body;
 
-    if (!equipo_id || !reto_definitivo_id) {
+    if (!equipo_id || !reto_id) {
       return res.status(400).json({
         error: "ID del equipo y ID del reto definitivo son requeridos",
       });
     }
 
-    const retoExists = await RetosService.retoExists(reto_definitivo_id);
+    const retoExists = await RetosService.retoExists(reto_id);
     if (!retoExists) {
       return res.status(400).json({ error: "El reto seleccionado no existe" });
     }
 
     const updatedEquipo = await RetosService.defineRetoDefinitivo(
       equipo_id,
-      reto_definitivo_id,
+      reto_id,
     );
 
     res.status(200).json(updatedEquipo);
