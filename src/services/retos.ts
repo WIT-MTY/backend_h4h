@@ -132,6 +132,36 @@ export const defineRetoDefinitivo = async (
   return rows[0];
 };
 
+export const updateRetoDefinitivo = async (equipoId: number) => {
+  // Obtiene el equipo con sus opciones y reto actual
+  const selectQuery = `
+    SELECT reto_asignado_id, opcion1_reto_id, opcion2_reto_id
+    FROM equipo
+    WHERE id = $1;
+  `;
+  const { rows } = await db.query(selectQuery, [equipoId]);
+  const equipo = rows[0];
+
+  if (!equipo) return null;
+
+  const { reto_asignado_id, opcion1_reto_id, opcion2_reto_id } = equipo;
+
+  // Determina la opción restante (la que no está asignada actualmente)
+  const nuevoReto =
+    reto_asignado_id === opcion1_reto_id ? opcion2_reto_id : opcion1_reto_id;
+
+  if (!nuevoReto) return null;
+
+  const updateQuery = `
+    UPDATE equipo
+    SET reto_asignado_id = $2
+    WHERE id = $1
+    RETURNING id, reto_asignado_id;
+  `;
+  const { rows: updated } = await db.query(updateQuery, [equipoId, nuevoReto]);
+  return updated[0];
+};
+
 //regresa numero de equipos por reto definitivo
 export const getEquiposPorRetoDefinitivo = async () => {
   const query = `
