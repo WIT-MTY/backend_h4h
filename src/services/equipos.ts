@@ -6,6 +6,7 @@ export const getEquipos = async () => {
   const query = `
     SELECT
         e.id,
+        e.codigo,
         e.nombre,
         CONCAT(l.nombre, ' ', l.apellido) AS lider,
         CONCAT(p2.nombre, ' ', p2.apellido) AS participante2,

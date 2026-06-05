@@ -3,7 +3,18 @@ import { db } from "../config/db.js";
 // Endpoint para obtener todos los participantes que hicieron check-in (nombre, apellido, hora de llegada)
 export const getParticipantesCheckIns = async () => {
   const query = `
-        SELECT p.nombre, p.apellido, p.hora_llegada FROM participante p WHERE p.registro_d1 = true;
+    SELECT 
+      p.nombre, 
+      p.apellido, 
+      e.nombre AS equipo,
+      p.hora_llegada
+    FROM participante p
+    LEFT JOIN equipo e ON (
+      e.lider_id = p.usuario_base_id OR
+      e.participante2_id = p.usuario_base_id OR
+      e.participante3_id = p.usuario_base_id OR
+      e.participante4_id = p.usuario_base_id)
+      WHERE p.registro_d1 = true;;
     `;
 
   const { rows } = await db.query(query);
