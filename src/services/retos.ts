@@ -126,7 +126,7 @@ export const defineRetoDefinitivo = async (
     UPDATE equipo
     SET reto_asignado_id = $2
     WHERE id = $1
-    RETURNING equipo_id, reto_asignado_id;
+    RETURNING id, reto_asignado_id;
   `;
   const { rows } = await db.query(query, [equipoId, retoDefinitivoId]);
   return rows[0];
