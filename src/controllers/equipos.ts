@@ -147,6 +147,22 @@ export const joinTeam = async (req: Request, res: Response) => {
   }
 };
 
+export const removeIntegranteFromEquipo = async (req: Request, res: Response) => {
+  try {
+    const equipo_id = req.params.equipo_id as string;
+    const usuario_base_id = req.params.usuario_base_id as string;
+
+    if (!equipo_id || isNaN(Number(equipo_id))) {
+      return res.status(400).json({ error: "El ID del equipo es inválido." });
+    }
+
+    if (!usuario_base_id) {
+      return res.status(400).json({ error: "El ID de la participante es inválido." });
+    }
+
+    await EquipoService.removeIntegranteFromEquipo(Number(equipo_id), usuario_base_id);
+    return res.json({ message: "Integrante removida del equipo con éxito" });
+
 export const deleteTeam = async (req: Request, res: Response) => {
   try {
     const { equipo_id } = req.params;

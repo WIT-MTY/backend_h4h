@@ -254,6 +254,43 @@ export const getTeamLeader = async (equipoId: number) => {
   return rows[0]?.lider_id;
 };
 
+
+export const removeIntegranteFromEquipo = async (equipo_id: number, usuario_base_id: string) => {
+  // Verificar que el equipo existe
+  const equipo = await db.query(
+    `SELECT id, lider_id, participante2_id, participante3_id, participante4_id
+     FROM equipo WHERE id = $1`,
+    [equipo_id]
+  );
+
+  if (equipo.rowCount === 0) {
+    throw new Error("NOT_FOUND");
+  }
+
+  const { lider_id, participante2_id, participante3_id, participante4_id } = equipo.rows[0];
+
+  // No se puede remover a la líder
+  if (lider_id === usuario_base_id) {
+    throw new Error("IS_LEADER");
+  }
+
+  // Determinar qué slot ocupa
+  const slot =
+    participante2_id === usuario_base_id ? "participante2_id" :
+    participante3_id === usuario_base_id ? "participante3_id" :
+    participante4_id === usuario_base_id ? "participante4_id" :
+    null;
+
+  if (!slot) {
+    throw new Error("NOT_MEMBER");
+  }
+
+  // Poner el slot en NULL
+  await db.query(
+    `UPDATE equipo SET ${slot} = NULL WHERE id = $1`,
+    [equipo_id]
+  );
+};
 export const deleteTeam = async (equipo_id: number) => {
   const query = `DELETE FROM equipo WHERE id = $1`;
   await db.query(query, [equipo_id]);
