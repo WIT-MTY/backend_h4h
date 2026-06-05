@@ -21,6 +21,9 @@ router.put("/elegir", RetosController.updateRetosEquipo);
 // PUT/retos/asignar-reto - actualizar reto_asignado de un equipo (dentro del body: equipo_id, reto_id)
 router.put("/asignar-reto", RetosController.defineRetoDefinitivo);
 
+//PUT/retos/actualizar-reto - actualizar reto_asignado de un equipo (dentro del body: equipo_id, reto_id)
+router.put("/actualizar-reto", RetosController.updateRetoDefinitivo);
+
 // GET /retos/equipos-por-reto - obtener cantidad de equipos por reto
 router.get("/equipos-por-reto", RetosController.getEquiposPorReto);
 

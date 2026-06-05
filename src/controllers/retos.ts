@@ -202,6 +202,27 @@ export const defineRetoDefinitivo = async (req: Request, res: Response) => {
   }
 };
 
+export const updateRetoDefinitivo = async (req: Request, res: Response) => {
+  try {
+    const { equipo_id } = req.body;
+
+    if (!equipo_id) {
+      return res.status(400).json({ error: "ID del equipo es requerido" });
+    }
+
+    const updatedEquipo = await RetosService.updateRetoDefinitivo(equipo_id);
+
+    if (!updatedEquipo) {
+      return res.status(404).json({ error: "Equipo no encontrado o no tiene opciones de reto disponibles" });
+    }
+
+    res.status(200).json(updatedEquipo);
+  } catch (error) {
+    console.error("Error al actualizar reto definitivo:", error);
+    res.status(500).json({ error: "Error al actualizar reto definitivo" });
+  }
+};
+
 export const getEquiposPorRetoDefinitivo = async (
   req: Request,
   res: Response,
