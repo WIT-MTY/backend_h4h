@@ -120,7 +120,7 @@ export const getRetoParticipante = async (usuarioBaseId: string) => {
 
 export const defineRetoDefinitivo = async (
   equipoId: number,
-  retoDefinitivoId: number,
+  retoId: number,
 ) => {
   const query = `
     UPDATE equipo
@@ -128,7 +128,7 @@ export const defineRetoDefinitivo = async (
     WHERE id = $1
     RETURNING id, reto_asignado_id;
   `;
-  const { rows } = await db.query(query, [equipoId, retoDefinitivoId]);
+  const { rows } = await db.query(query, [equipoId, retoId]);
   return rows[0];
 };
 
@@ -138,10 +138,11 @@ export const getEquiposPorRetoDefinitivo = async () => {
     SELECT
         r.titulo AS reto_definitivo,
         COUNT(e.id) AS numero_equipos
-    FROM equipo e
-    JOIN reto r ON e.reto_asignado_id = r.id
-    WHERE e.reto_asignado_id IS NOT NULL
-    GROUP BY r.titulo;`;
+    FROM reto r
+    LEFT JOIN equipo e
+        ON e.reto_asignado_id = r.id
+    GROUP BY r.id, r.titulo
+    ORDER BY r.titulo;`;
 
   const { rows } = await db.query(query);
   return rows;
