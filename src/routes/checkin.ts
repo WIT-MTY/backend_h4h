@@ -6,6 +6,7 @@ const router = Router();
 
 router.use(protectRoute);
 
+router.get("/retos", checkinController.getRetosCheckin);
 router.get("/participantes", checkinController.getParticipantesCheckIns);
 router.get("/equipos", checkinController.getEquiposCheckIn);
 router.post("/:userId", checkinController.createCheckIn);

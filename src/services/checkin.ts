@@ -156,3 +156,27 @@ export const getMyCheckInStatus = async (userId: string) => {
   const { rows } = await db.query(query, [userId]);
   return rows[0]?.registro_d1;
 };
+
+export const getRetosCheckin = async () => {
+  const query = `
+    SELECT 
+        r.titulo AS reto,
+        COUNT(DISTINCT e.id) AS equipos_asignados,
+        COUNT(DISTINCT CASE 
+            WHEN p.registro_d1 = TRUE THEN e.id 
+        END) AS equipos_con_checkin
+    FROM reto r
+    LEFT JOIN equipo e ON e.reto_asignado_id = r.id
+    LEFT JOIN participante p
+        ON p.usuario_base_id IN (
+            e.lider_id,
+            e.participante2_id,
+            e.participante3_id,
+            e.participante4_id
+        )
+    GROUP BY r.id, r.titulo
+    ORDER BY equipos_asignados DESC;
+  `;
+  const { rows } = await db.query(query);
+  return rows;
+};

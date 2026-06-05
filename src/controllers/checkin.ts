@@ -103,3 +103,13 @@ export const getMyCheckInStatus = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error al obtener estado de check-in" });
   }
 };
+
+export const getRetosCheckin = async (_req: Request, res: Response) => {
+  try {
+    const data = await CheckinService.getRetosCheckin();
+    res.json(data);
+  } catch (error) {
+    console.error("Error al obtener retos checkin:", error);
+    res.status(500).json({ error: "Error al obtener datos de retos" });
+  }
+};
