@@ -5,22 +5,37 @@ import { generarCodigoEntrada } from "../utils/codigoEntrada.js";
 export const getEquipos = async () => {
   const query = `
     SELECT
-        e.id,
-        e.codigo,
-        e.nombre,
-        CONCAT(l.nombre, ' ', l.apellido) AS lider,
-        CONCAT(p2.nombre, ' ', p2.apellido) AS participante2,
-        CONCAT(p3.nombre, ' ', p3.apellido) AS participante3,
-        CONCAT(p4.nombre, ' ', p4.apellido) AS participante4,
-        e.fecha_creacion,
-        e.fecha_validacion,
-        est.descripcion AS estatus
-    FROM equipo e
-    LEFT JOIN participante l ON e.lider_id = l.usuario_base_id
-    LEFT JOIN participante p2 ON e.participante2_id = p2.usuario_base_id
-    LEFT JOIN participante p3 ON e.participante3_id = p3.usuario_base_id
-    LEFT JOIN participante p4 ON e.participante4_id = p4.usuario_base_id
-    JOIN estatus_equipo est ON e.estatus_equipo_id = est.id;`;
+    e.id,
+    e.codigo,
+    e.nombre,
+    l.usuario_base_id AS lider_id,
+    CONCAT(l.nombre, ' ', l.apellido) AS lider,
+    p2.usuario_base_id AS participante2_id,
+    CONCAT(p2.nombre, ' ', p2.apellido) AS participante2,
+    p3.usuario_base_id AS participante3_id,
+    CONCAT(p3.nombre, ' ', p3.apellido) AS participante3,
+    p4.usuario_base_id AS participante4_id,
+    CONCAT(p4.nombre, ' ', p4.apellido) AS participante4,
+    e.fecha_creacion,
+    e.fecha_validacion,
+    est.descripcion AS estatus,
+    CASE WHEN e.reto_asignado_id IS NOT NULL THEN true ELSE false END AS tiene_reto_asignado,
+    CASE WHEN e.opcion1_reto_id IS NOT NULL AND e.opcion2_reto_id IS NOT NULL THEN true ELSE false END AS tiene_dos_opciones,
+    e.opcion1_reto_id,
+    r1.titulo AS opcion1_reto_nombre,
+    e.opcion2_reto_id,
+    r2.titulo AS opcion2_reto_nombre,
+    e.reto_asignado_id,
+    ra.titulo AS reto_asignado_nombre
+FROM equipo e
+LEFT JOIN participante l ON e.lider_id = l.usuario_base_id
+LEFT JOIN participante p2 ON e.participante2_id = p2.usuario_base_id
+LEFT JOIN participante p3 ON e.participante3_id = p3.usuario_base_id
+LEFT JOIN participante p4 ON e.participante4_id = p4.usuario_base_id
+JOIN estatus_equipo est ON e.estatus_equipo_id = est.id
+LEFT JOIN reto r1 ON e.opcion1_reto_id = r1.id
+LEFT JOIN reto r2 ON e.opcion2_reto_id = r2.id
+LEFT JOIN reto ra ON e.reto_asignado_id = ra.id;`;
 
   const { rows } = await db.query(query);
   return rows;
