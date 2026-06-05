@@ -62,7 +62,6 @@ export const updateRetosEquipo = async (
   return rows[0];
 };
 
-
 // Verificar si ya aceptó
 export const getClausulaArca = async (usuarioBaseId: string) => {
   const query = `
@@ -77,7 +76,7 @@ export const getClausulaArca = async (usuarioBaseId: string) => {
 // Guardar la aceptación
 export const aceptarClausulaArca = async (
   usuarioBaseId: string,
-  nombreAceptoClausula: string
+  nombreAceptoClausula: string,
 ) => {
   const query = `
     UPDATE public.participante
@@ -89,4 +88,61 @@ export const aceptarClausulaArca = async (
   `;
   const { rows } = await db.query(query, [usuarioBaseId, nombreAceptoClausula]);
   return rows[0];
+};
+
+export const getEquiposPorReto = async () => {
+  const query = `
+    SELECT
+        e.nombre,
+        r1.titulo AS opcion1,
+        r2.titulo AS opcion2
+    FROM equipo e
+    JOIN reto r1 ON e.opcion1_reto_id = r1.id
+    JOIN reto r2 ON e.opcion2_reto_id = r2.id;`;
+
+  const { rows } = await db.query(query);
+  return rows;
+};
+
+export const getRetoParticipante = async (usuarioBaseId: string) => {
+  const query = `
+    SELECT
+        r1.titulo AS opcion1,
+        r2.titulo AS opcion2
+    FROM equipo e
+    JOIN reto r1 ON e.opcion1_reto_id = r1.id
+    JOIN reto r2 ON e.opcion2_reto_id = r2.id
+    WHERE e.lider_id = $1 OR e.participante2_id = $1 OR e.participante3_id = $1 OR e.participante4_id = $1;`;
+
+  const { rows } = await db.query(query, [usuarioBaseId]);
+  return rows[0];
+};
+
+export const defineRetoDefinitivo = async (
+  equipoId: number,
+  retoDefinitivoId: number,
+) => {
+  const query = `
+    UPDATE equipo
+    SET reto_asignado_id = $2
+    WHERE id = $1
+    RETURNING equipo_id, reto_asignado_id;
+  `;
+  const { rows } = await db.query(query, [equipoId, retoDefinitivoId]);
+  return rows[0];
+};
+
+//regresa numero de equipos por reto definitivo
+export const getEquiposPorRetoDefinitivo = async () => {
+  const query = `
+    SELECT
+        r.titulo AS reto_definitivo,
+        COUNT(e.id) AS numero_equipos
+    FROM equipo e
+    JOIN reto r ON e.reto_asignado_id = r.id
+    WHERE e.reto_asignado_id IS NOT NULL
+    GROUP BY r.titulo;`;
+
+  const { rows } = await db.query(query);
+  return rows;
 };

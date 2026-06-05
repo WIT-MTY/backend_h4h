@@ -18,4 +18,10 @@ router.get("/mi-equipo", RetosController.getMiEquipo);
 // PUT /retos/equipo/:equipoId - actualizar opciones (solo líder)
 router.put("/elegir", RetosController.updateRetosEquipo);
 
+// PUT/retos/asignar-reto - actualizar reto_asignado de un equipo (dentro del body: equipo_id, reto_id)
+router.put("/asignar-reto", RetosController.defineRetoDefinitivo);
+
+// GET /retos/equipos-por-reto - obtener cantidad de equipos por reto
+router.get("/equipos-por-reto", RetosController.getEquiposPorReto);
+
 export default router;
