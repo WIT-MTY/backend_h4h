@@ -28,10 +28,15 @@ export const getEquiposCheckIn = async () => {
       e.nombre,
       COUNT(CASE WHEN p.registro_d1 = TRUE THEN 1 END) AS personas_registradas,
       CASE
-          WHEN COUNT(*) = COUNT(CASE WHEN p.registro_d1 = TRUE THEN 1 END)
+          WHEN (
+              (e.lider_id IS NOT NULL)::int +
+              (e.participante2_id IS NOT NULL)::int +
+              (e.participante3_id IS NOT NULL)::int +
+              (e.participante4_id IS NOT NULL)::int
+          ) = 4
           THEN 'Completo'
           ELSE 'Incompleto'
-      END AS equipo_completo_checkin,
+      END AS equipo_completo,
       r1.titulo AS reto_1,
       r2.titulo AS reto_2
   FROM equipo e
