@@ -70,7 +70,7 @@ export const createTeam = async (req: Request, res: Response) => {
     const equipo_data: CrearEquipoData = {
       ...req.body,
       lider_id: userId,
-    };  
+    };
 
     if (!userId) {
       return res.status(401).json({ error: "Usuario no encontrado" });
@@ -140,6 +140,35 @@ export const joinTeam = async (req: Request, res: Response) => {
       return res
         .status(400)
         .json({ error: "El equipo debe tener al menos una integrante mujer" });
+    }
+
+    console.error(error);
+    return res.status(500).json({ error: "Ocurrió un error inesperado" });
+  }
+};
+
+export const deleteTeam = async (req: Request, res: Response) => {
+  try {
+    const { equipo_id } = req.params;
+
+    if (!equipo_id || isNaN(Number(equipo_id))) {
+      return res.status(400).json({
+        error: "El ID del equipo es inválido o no fue proporcionado.",
+      });
+    }
+
+    await EquipoService.deleteTeam(Number(equipo_id));
+
+    return res.json({ message: "Equipo eliminado con éxito" });
+  } catch (error: any) {
+    if (error.message === "NOT_FOUND") {
+      return res.status(404).json({ error: "Equipo no encontrado" });
+    }
+
+    if (error.message === "FORBIDDEN") {
+      return res
+        .status(403)
+        .json({ error: "No tienes permiso para eliminar este equipo" });
     }
 
     console.error(error);
