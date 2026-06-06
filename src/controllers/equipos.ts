@@ -163,6 +163,21 @@ export const removeIntegranteFromEquipo = async (req: Request, res: Response) =>
     await EquipoService.removeIntegranteFromEquipo(Number(equipo_id), usuario_base_id);
     return res.json({ message: "Integrante removida del equipo con éxito" });
 
+  } catch (error: any) {  // 👈 faltaba este catch
+    if (error.message === "NOT_MEMBER") {
+      return res.status(400).json({ error: "La participante no pertenece a este equipo" });
+    }
+    if (error.message === "IS_LEADER") {
+      return res.status(400).json({ error: "No se puede remover a la líder del equipo" });
+    }
+    if (error.message === "NOT_FOUND") {
+      return res.status(404).json({ error: "Equipo no encontrado" });
+    }
+    console.error(error);
+    return res.status(500).json({ error: "Ocurrió un error inesperado" });
+  }
+}; 
+
 export const deleteTeam = async (req: Request, res: Response) => {
   try {
     const { equipo_id } = req.params;
