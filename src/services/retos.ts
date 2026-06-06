@@ -177,3 +177,24 @@ export const getEquiposPorRetoDefinitivo = async () => {
   const { rows } = await db.query(query);
   return rows;
 };
+
+export const getMyReto = async (userId: string) => {
+  const query = `
+    SELECT
+      r.id,
+      r.titulo,
+      r.descripcion,
+      e.id AS equipo_id,
+      e.nombre AS equipo_nombre
+    FROM equipo e
+    JOIN reto r ON e.reto_asignado_id = r.id
+    WHERE
+      e.lider_id = $1
+      OR e.participante2_id = $1
+      OR e.participante3_id = $1
+      OR e.participante4_id = $1
+  `;
+
+  const { rows } = await db.query(query, [userId]);
+  return rows[0] ?? null;
+};

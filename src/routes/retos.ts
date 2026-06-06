@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as RetosController from "../controllers/retos.js";
 import { protectRoute } from "../middlewares/auth.js";
+import { getMyReto } from "../controllers/retos.js";
 
 const router = Router();
 
@@ -14,6 +15,9 @@ router.get("/", RetosController.getAllRetos);
 
 // GET /retos/mi-equipo?usuarioBaseId=xxx - info del equipo
 router.get("/mi-equipo", RetosController.getMiEquipo);
+
+// GET /retos/mi-reto - obtener el reto asignado al equipo del usuario
+router.get("/mi-reto", protectRoute, getMyReto);
 
 // PUT /retos/equipo/:equipoId - actualizar opciones (solo líder)
 router.put("/elegir", RetosController.updateRetosEquipo);

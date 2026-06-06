@@ -238,3 +238,22 @@ export const getEquiposPorRetoDefinitivo = async (
       .json({ error: "Error al obtener equipos por reto definitivo" });
   }
 };
+
+export const getMyReto = async (req: Request, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: "Usuario no autenticado" });
+    }
+
+    const reto = await RetosService.getMyReto(userId);
+    if (!reto) {
+      return res.status(404).json({ error: "No tienes un reto asignado aún" });
+    }
+
+    return res.json(reto);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Ocurrió un error inesperado" });
+  }
+};
